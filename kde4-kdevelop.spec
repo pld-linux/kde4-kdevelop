@@ -2,7 +2,7 @@
 # Conditional build:
 #
 %define		_state		unstable
-%define		_kdever		4.0.61
+%define		_kdever		4.0.65
 %define		orgname		kdevelop
 
 Summary:	KDE Integrated Development Environment
@@ -11,12 +11,12 @@ Summary(pl.UTF-8):	Zintegrowane środowisko programisty dla KDE
 Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
-Version:	4.0.61
-Release:	1
+Version:	4.0.65
+Release:	0.1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	db01986dfa20c075ded5f5aa19f8a69f
+# Source0-md5:	2583086869269c1f91a7ccd8b0e60013
 URL:		http://www.kdevelop.org/
 # disabled, breaks with this new antlr
 # BuildRequires:	antlr >= 2.7.3
@@ -172,6 +172,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevqtdesigner
 %{_datadir}/apps/kdevvalgrind
 %{_datadir}/config/kdeveloprc
+%{_datadir}/apps/kdevcppsupport/kdevcppsupport.rc
 
 %{_iconsdir}/*/*x*/*/*.png
 %{_datadir}/kde4/services/kcm_kdev_cppdebugger.desktop
