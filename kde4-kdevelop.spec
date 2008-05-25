@@ -11,12 +11,12 @@ Summary(pl.UTF-8):	Zintegrowane środowisko programisty dla KDE
 Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
-Version:	4.0.70
+Version:	4.0.74
 Release:	0.1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	1f3201d6fc81d5a1f2de78fb03013e22
+# Source0-md5:	10df1758faa74e64662d4ebd7f74623a
 URL:		http://www.kdevelop.org/
 # disabled, breaks with this new antlr
 # BuildRequires:	antlr >= 2.7.3
@@ -28,6 +28,7 @@ BuildRequires:	flex
 %{?with_ada:BuildRequires:gcc-ada}
 BuildRequires:	gettext-devel
 BuildRequires:	kde4-kdelibs-devel
+BuildRequires:	kde4-kdevplatform-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtool
