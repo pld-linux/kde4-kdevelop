@@ -3,7 +3,6 @@
 #
 %define		_state		unstable
 %define		_kdever		4.1.85
-%define		_rel		905177
 %define		orgname		kdevelop
 
 Summary:	KDE Integrated Development Environment
@@ -13,11 +12,11 @@ Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
 Version:	3.9.84
-Release:	0.%{_rel}.1
+Release:	0.1
 License:	GPL
 Group:		X11/Development/Tools
-Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/snapshots/%{orgname}-%{_rel}.tar.bz2
-# Source0-md5:	240cebb83b735abe7489e3b89a89eb9a
+Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.bz2
+# Source0-md5:	5c462416c850e41391ca34d9adf6d131
 URL:		http://www.kdevelop.org/
 # disabled, breaks with this new antlr
 # BuildRequires:	antlr >= 2.7.3
