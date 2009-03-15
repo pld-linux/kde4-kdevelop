@@ -11,13 +11,14 @@ Summary(pl.UTF-8):	Zintegrowane środowisko programisty dla KDE
 Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
-Version:	3.9.84
-Release:	0.1
+Version:	3.9.91
+Release:	1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	5c462416c850e41391ca34d9adf6d131
+# Source0-md5:	8fe4f166d0a56604f37c311b3d9d530c
 URL:		http://www.kdevelop.org/
+Patch0:		%{name}-libkio.patch
 # disabled, breaks with this new antlr
 # BuildRequires:	antlr >= 2.7.3
 BuildRequires:	autoconf
@@ -28,7 +29,7 @@ BuildRequires:	flex
 %{?with_ada:BuildRequires:gcc-ada}
 BuildRequires:	gettext-devel
 BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
-BuildRequires:	kde4-kdevplatform-devel >= %{_kdever}
+BuildRequires:	kde4-kdevplatform-devel >= 0.9.91
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtool
@@ -38,6 +39,8 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	subversion-devel >= 1.2.0-4
 BuildRequires:	zlib-devel
+BuildRequires:	QtDesigner-devel
+BuildRequires:	QtTest-devel
 BuildConflicts:	star
 Requires:	kde4-kdebase-core >= %{_kdever}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -99,7 +102,8 @@ potrzebnych do programowania przez dodanie ich do menu Tools według
 własnych potrzeb.
 
 %prep
-%setup -q -n %{orgname}-%{_rel}
+%setup -q -n %{orgname}-%{version}
+%patch0 -p1
 
 %build
 install -d build
@@ -140,7 +144,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_valgrindsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_veritassettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdevcmake_settings.so
-%attr(755,root,root) %{_libdir}/kde4/kdevappwizard.so
+#%attr(755,root,root) %{_libdir}/kde4/kdevappwizard.so
 %attr(755,root,root) %{_libdir}/kde4/kdevastyle.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcmakebuilder.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcmakemanager.so
@@ -196,7 +200,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kcm_kdev_valgrindsettings.desktop
 %{_datadir}/kde4/services/kcm_kdev_veritassettings.desktop
 %{_datadir}/kde4/services/kcm_kdevcmake_settings.desktop
-%{_datadir}/kde4/services/kdevappwizard.desktop
+#%{_datadir}/kde4/services/kdevappwizard.desktop
 %{_datadir}/kde4/services/kdevastyle.desktop
 %{_datadir}/kde4/services/kdevcmakebuilder.desktop
 %{_datadir}/kde4/services/kdevcmakemanager.desktop
@@ -213,5 +217,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kdevqtdesigner.desktop
 %{_datadir}/kde4/services/kdevqtest.desktop
 %{_datadir}/kde4/services/kdevvalgrind.desktop
+%{_datadir}/applications/kde4/kdevelop.desktop
 
 %{_includedir}/kdevelop
