@@ -2,7 +2,8 @@
 # Conditional build:
 #
 %define		_state		unstable
-%define		_kdever		4.1.85
+%define		_kdever		4.1.96
+%define		_qtver		4.4
 %define		orgname		kdevelop
 
 Summary:	KDE Integrated Development Environment
@@ -19,30 +20,39 @@ Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-
 # Source0-md5:	8fe4f166d0a56604f37c311b3d9d530c
 URL:		http://www.kdevelop.org/
 Patch0:		%{name}-libkio.patch
-# disabled, breaks with this new antlr
-# BuildRequires:	antlr >= 2.7.3
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	db-devel
-BuildRequires:	doxygen
-BuildRequires:	flex
-%{?with_ada:BuildRequires:gcc-ada}
-BuildRequires:	gettext-devel
-BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
-BuildRequires:	kde4-kdevplatform-devel >= 0.9.91
-BuildRequires:	libjpeg-devel
-BuildRequires:	libpng-devel
-BuildRequires:	libtool
-BuildRequires:	openssl-devel >= 0.9.7d
-BuildRequires:	pcre-devel
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.129
-BuildRequires:	subversion-devel >= 1.2.0-4
-BuildRequires:	zlib-devel
-BuildRequires:	QtDesigner-devel
-BuildRequires:	QtTest-devel
+BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
+BuildRequires:	kde4-kdevplatform-devel >= 0.9.91
+BuildRequires:	QtCore-devel >= %{_qtver}
+BuildRequires:	QtDBus-devel >= %{_qtver}
+BuildRequires:	QtDesigner-devel >= %{_qtver}
+BuildRequires:	QtGui-devel >= %{_qtver}
+BuildRequires:	QtNetwork-devel >= %{_qtver}
+BuildRequires:	QtScript-devel >= %{_qtver}
+BuildRequires:	QtTest-devel >= %{_qtver}
+BuildRequires:	QtSvg-devel >= %{_qtver}
+BuildRequires:	Qt3Support-devel >= %{_qtver}
+BuildRequires:	perl-base >= 5.8
+BuildRequires:	zlib-devel >= 1.2.0
+BuildRequires:	libstdc++-devel >= 3.3
+BuildRequires:	gcc-c++ >= 3.3
 BuildConflicts:	star
 Requires:	kde4-kdebase-core >= %{_kdever}
+Requires:	kde4-kdelibs >= %{_kdever}
+Requires:	kde4-kdelibs-libs >= %{_kdever}
+Requires:	QTCore >= %{_qtver}
+Requires:	QtDBus >= %{_qtver}
+Requires:	QtDesigner >= %{_qtver}
+Requires:	QtGui >= %{_qtver}
+Requires:	QtNetwork >= %{_qtver}
+Requires:	QtScript >= %{_qtver}
+Requires:	glibc	
+Requires:	libgcc
+Requires:	kde4-kdevplatform >= 0.9.91
+Requires:	libstdc++ >= 3.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -123,7 +133,6 @@ install -d $RPM_BUILD_ROOT%{_desktopdir}
 	kde_htmldir=%{_kdedocdir}
 
 install src/kdevelop.desktop $RPM_BUILD_ROOT%{_desktopdir}
-#%find_lang %{name} --with-kde --all-name
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -133,7 +142,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-#-f %{name}.lang
 %attr(755,root,root) %{_bindir}/kdev_includepathresolver
 %attr(755,root,root) %{_bindir}/kdevelop
 %attr(755,root,root) %{_bindir}/lcov_geninfo
@@ -144,7 +152,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_valgrindsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_veritassettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdevcmake_settings.so
-#%attr(755,root,root) %{_libdir}/kde4/kdevappwizard.so
 %attr(755,root,root) %{_libdir}/kde4/kdevastyle.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcmakebuilder.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcmakemanager.so
@@ -200,7 +207,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kcm_kdev_valgrindsettings.desktop
 %{_datadir}/kde4/services/kcm_kdev_veritassettings.desktop
 %{_datadir}/kde4/services/kcm_kdevcmake_settings.desktop
-#%{_datadir}/kde4/services/kdevappwizard.desktop
 %{_datadir}/kde4/services/kdevastyle.desktop
 %{_datadir}/kde4/services/kdevcmakebuilder.desktop
 %{_datadir}/kde4/services/kdevcmakemanager.desktop
