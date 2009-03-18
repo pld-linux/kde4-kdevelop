@@ -43,7 +43,7 @@ BuildConflicts:	star
 Requires:	kde4-kdebase-core >= %{_kdever}
 Requires:	kde4-kdelibs >= %{_kdever}
 Requires:	kde4-kdelibs-libs >= %{_kdever}
-Requires:	QTCore >= %{_qtver}
+Requires:	QtCore >= %{_qtver}
 Requires:	QtDBus >= %{_qtver}
 Requires:	QtDesigner >= %{_qtver}
 Requires:	QtGui >= %{_qtver}
