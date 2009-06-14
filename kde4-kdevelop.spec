@@ -41,7 +41,7 @@ BuildRequires:	zlib-devel >= 1.2.0
 BuildRequires:	libstdc++-devel >= 3.3
 BuildRequires:	gcc-c++ >= 3.3
 BuildConflicts:	star
-Requires:	kde4-kdebase-core >= %{_kdever}
+Requires:	kde4-kdebase >= %{_kdever}
 Requires:	kde4-kdelibs >= %{_kdever}
 Requires:	kde4-kdelibs-libs >= %{_kdever}
 Requires:	QtCore >= %{_qtver}
