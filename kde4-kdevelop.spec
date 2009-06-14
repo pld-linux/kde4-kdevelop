@@ -4,6 +4,7 @@
 %define		_state		unstable
 %define		_kdever		4.1.96
 %define		_qtver		4.4
+%define		svnrev		981766
 %define		orgname		kdevelop
 
 Summary:	KDE Integrated Development Environment
@@ -12,20 +13,20 @@ Summary(pl.UTF-8):	Zintegrowane środowisko programisty dla KDE
 Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
-Version:	3.9.91
-Release:	1
+Version:	3.9.93
+Release:	0.%{svnrev}.1
 License:	GPL
 Group:		X11/Development/Tools
-Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	8fe4f166d0a56604f37c311b3d9d530c
+# get it via: svn co svn://anonsvn.kde.org/home/kde/trunk/KDE/kdevelop
+#Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.bz2
+Source0:	%{orgname}-%{svnrev}.tar.bz2
+# Source0-md5:	9e02a49a07f4ec50c34bec6968e35a9a
 URL:		http://www.kdevelop.org/
-Patch0:		%{name}-libkio.patch
-BuildRequires:	autoconf
-BuildRequires:	automake
+BuildRequires:	cmake >= 2.6.2
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
-BuildRequires:	kde4-kdevplatform-devel >= 0.9.91
+BuildRequires:	kde4-kdevplatform-devel >= 0.9.93
 BuildRequires:	QtCore-devel >= %{_qtver}
 BuildRequires:	QtDBus-devel >= %{_qtver}
 BuildRequires:	QtDesigner-devel >= %{_qtver}
@@ -49,9 +50,9 @@ Requires:	QtDesigner >= %{_qtver}
 Requires:	QtGui >= %{_qtver}
 Requires:	QtNetwork >= %{_qtver}
 Requires:	QtScript >= %{_qtver}
-Requires:	glibc	
+Requires:	glibc
 Requires:	libgcc
-Requires:	kde4-kdevplatform >= 0.9.91
+Requires:	kde4-kdevplatform >= 0.9.93
 Requires:	libstdc++ >= 3.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -112,8 +113,7 @@ potrzebnych do programowania przez dodanie ich do menu Tools według
 własnych potrzeb.
 
 %prep
-%setup -q -n %{orgname}-%{version}
-%patch0 -p1
+%setup -q -n %{orgname}
 
 %build
 install -d build
@@ -132,7 +132,7 @@ install -d $RPM_BUILD_ROOT%{_desktopdir}
 	DESTDIR=$RPM_BUILD_ROOT \
 	kde_htmldir=%{_kdedocdir}
 
-install src/kdevelop.desktop $RPM_BUILD_ROOT%{_desktopdir}
+install app/kdevelop.desktop $RPM_BUILD_ROOT%{_desktopdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -142,55 +142,60 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/kdev_includepathresolver
+#%attr(755,root,root) %{_bindir}/kdev_includepathresolver
 %attr(755,root,root) %{_bindir}/kdevelop
-%attr(755,root,root) %{_bindir}/lcov_geninfo
-%attr(755,root,root) %{_bindir}/qmake-parser
-%attr(755,root,root) %{_libdir}/kde4/kcm_kdev_cppdebugger.so
+#%attr(755,root,root) %{_bindir}/lcov_geninfo
+#%attr(755,root,root) %{_bindir}/qmake-parser
+#%attr(755,root,root) %{_libdir}/kde4/kcm_kdev_cppdebugger.so
+%attr(755,root,root) %{_libdir}/kde4/kcm_kdev_lcovsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_makebuilder.so
-%attr(755,root,root) %{_libdir}/kde4/kcm_kdev_qmakebuilder.so
-%attr(755,root,root) %{_libdir}/kde4/kcm_kdev_valgrindsettings.so
+#%attr(755,root,root) %{_libdir}/kde4/kcm_kdev_qmakebuilder.so
+#%attr(755,root,root) %{_libdir}/kde4/kcm_kdev_valgrindsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_veritassettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdevcmake_settings.so
 %attr(755,root,root) %{_libdir}/kde4/kdevastyle.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcmakebuilder.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcmakemanager.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcoverage.so
-%attr(755,root,root) %{_libdir}/kde4/kdevcppdebugger.so
+#%attr(755,root,root) %{_libdir}/kde4/kdevcppdebugger.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcpplanguagesupport.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcustommakemanager.so
 %attr(755,root,root) %{_libdir}/kde4/kdevdocumentview.so
+%attr(755,root,root) %{_libdir}/kde4/kdevgdb.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgrepview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevindent.so
 %attr(755,root,root) %{_libdir}/kde4/kdevmakebuilder.so
-%attr(755,root,root) %{_libdir}/kde4/kdevqmakebuilder.so
-%attr(755,root,root) %{_libdir}/kde4/kdevqmakemanager.so
-%attr(755,root,root) %{_libdir}/kde4/kdevqtdesigner.so
+#%attr(755,root,root) %{_libdir}/kde4/kdevqmakebuilder.so
+#%attr(755,root,root) %{_libdir}/kde4/kdevqmakemanager.so
+#%attr(755,root,root) %{_libdir}/kde4/kdevqtdesigner.so
 %attr(755,root,root) %{_libdir}/kde4/kdevqtestview.so
+%attr(755,root,root) %{_libdir}/kde4/kdevqthelp.so
 %attr(755,root,root) %{_libdir}/kde4/kdevvalgrind.so
 %attr(755,root,root) %{_libdir}/libkdev4cmakecommon.so
 %attr(755,root,root) %{_libdir}/libkdev4cppduchain.so
 %attr(755,root,root) %{_libdir}/libkdev4cppparser.so
 %attr(755,root,root) %{_libdir}/libkdev4cpprpp.so
-%attr(755,root,root) %{_libdir}/libkdev4qmakeparser.so
-%attr(755,root,root) %{_libdir}/libkdev4qmakeduchain.so
+#%attr(755,root,root) %{_libdir}/libkdev4qmakeparser.so
+#%attr(755,root,root) %{_libdir}/libkdev4qmakeduchain.so
 %attr(755,root,root) %{_libdir}/libkdevqtest.so
 %attr(755,root,root) %{_libdir}/libkdevveritascoverage.so
 %attr(755,root,root) %{_libdir}/libveritascpp.so
 %{_desktopdir}/kdevelop.desktop
 
 %{_datadir}/apps/cmake/modules/FindKDevelop.cmake
-%{_datadir}/apps/cmake/modules/KDevelopMacros.cmake
+#%{_datadir}/apps/cmake/modules/KDevelopMacros.cmake
 %{_datadir}/apps/kdevappwizard
 %{_datadir}/apps/kdevcmakebuilder
 %{_datadir}/apps/kdevcmakemanager
-%{_datadir}/apps/kdevcppdebugger
+#%{_datadir}/apps/kdevcppdebugger
 %{_datadir}/apps/kdevcustommakemanager
 %{_datadir}/apps/kdevdocumentview
 %{_datadir}/apps/kdevelop
+%dir %{_datadir}/apps/kdevgdb
+%{_datadir}/apps/kdevgdb/kdevgdbui.rc
 %{_datadir}/apps/kdevgrepview
-%{_datadir}/apps/kdevqmakebuilder
-%{_datadir}/apps/kdevqtdesigner
+#%{_datadir}/apps/kdevqmakebuilder
+#%{_datadir}/apps/kdevqtdesigner
 %{_datadir}/apps/kdevvalgrind
 %{_datadir}/config/kdeveloprc
 %dir %{_datadir}/apps/kdevcppsupport
@@ -201,27 +206,30 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevqtest/kdevqtest.rc
 
 %{_iconsdir}/*/*x*/*/*.png
-%{_datadir}/kde4/services/kcm_kdev_cppdebugger.desktop
+#%{_datadir}/kde4/services/kcm_kdev_cppdebugger.desktop
+%{_datadir}/kde4/services/kcm_kdev_lcovsettings.desktop
 %{_datadir}/kde4/services/kcm_kdev_makebuilder.desktop
-%{_datadir}/kde4/services/kcm_kdev_qmakebuilder.desktop
-%{_datadir}/kde4/services/kcm_kdev_valgrindsettings.desktop
+#%{_datadir}/kde4/services/kcm_kdev_qmakebuilder.desktop
+#%{_datadir}/kde4/services/kcm_kdev_valgrindsettings.desktop
 %{_datadir}/kde4/services/kcm_kdev_veritassettings.desktop
 %{_datadir}/kde4/services/kcm_kdevcmake_settings.desktop
 %{_datadir}/kde4/services/kdevastyle.desktop
 %{_datadir}/kde4/services/kdevcmakebuilder.desktop
 %{_datadir}/kde4/services/kdevcmakemanager.desktop
 %{_datadir}/kde4/services/kdevcoverage.desktop
-%{_datadir}/kde4/services/kdevcppdebugger.desktop
+#%{_datadir}/kde4/services/kdevcppdebugger.desktop
 %{_datadir}/kde4/services/kdevcppsupport.desktop
 %{_datadir}/kde4/services/kdevcustommakemanager.desktop
 %{_datadir}/kde4/services/kdevdocumentview.desktop
+%{_datadir}/kde4/services/kdevgdb.desktop
 %{_datadir}/kde4/services/kdevgrepview.desktop
 %{_datadir}/kde4/services/kdevindent.desktop
 %{_datadir}/kde4/services/kdevmakebuilder.desktop
-%{_datadir}/kde4/services/kdevqmakebuilder.desktop
-%{_datadir}/kde4/services/kdevqmakemanager.desktop
-%{_datadir}/kde4/services/kdevqtdesigner.desktop
+#%{_datadir}/kde4/services/kdevqmakebuilder.desktop
+#%{_datadir}/kde4/services/kdevqmakemanager.desktop
+#%{_datadir}/kde4/services/kdevqtdesigner.desktop
 %{_datadir}/kde4/services/kdevqtest.desktop
+%{_datadir}/kde4/services/kdevqthelp.desktop
 %{_datadir}/kde4/services/kdevvalgrind.desktop
 %{_datadir}/applications/kde4/kdevelop.desktop
 
