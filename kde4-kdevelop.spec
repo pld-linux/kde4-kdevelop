@@ -2,9 +2,9 @@
 # Conditional build:
 #
 %define		_state		unstable
-%define		_kdever		4.1.96
+%define		_kdever		4.2.0
 %define		_qtver		4.4
-%define		svnrev		981766
+%define		svnrev		1027000
 %define		orgname		kdevelop
 
 Summary:	KDE Integrated Development Environment
@@ -13,20 +13,20 @@ Summary(pl.UTF-8):	Zintegrowane środowisko programisty dla KDE
 Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
-Version:	3.9.93
+Version:	3.9.95
 Release:	0.%{svnrev}.1
 License:	GPL
 Group:		X11/Development/Tools
 # get it via: svn co svn://anonsvn.kde.org/home/kde/trunk/KDE/kdevelop
 #Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.bz2
-Source0:	%{orgname}-%{svnrev}.tar.bz2
-# Source0-md5:	9e02a49a07f4ec50c34bec6968e35a9a
+Source0:	%{orgname}-%{version}-%{svnrev}.tar.bz2
+# Source0-md5:	6d12a3fe107e5ad407a48c1e3036ddf6
 URL:		http://www.kdevelop.org/
 BuildRequires:	cmake >= 2.6.2
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
-BuildRequires:	kde4-kdevplatform-devel >= 0.9.93
+BuildRequires:	kde4-kdevplatform-devel >= 0.9.95
 BuildRequires:	QtCore-devel >= %{_qtver}
 BuildRequires:	QtDBus-devel >= %{_qtver}
 BuildRequires:	QtDesigner-devel >= %{_qtver}
@@ -43,7 +43,6 @@ BuildRequires:	gcc-c++ >= 3.3
 BuildConflicts:	star
 Requires:	kde4-kdebase >= %{_kdever}
 Requires:	kde4-kdelibs >= %{_kdever}
-Requires:	kde4-kdelibs-libs >= %{_kdever}
 Requires:	QtCore >= %{_qtver}
 Requires:	QtDBus >= %{_qtver}
 Requires:	QtDesigner >= %{_qtver}
@@ -155,6 +154,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdevcmake_settings.so
 %attr(755,root,root) %{_libdir}/kde4/kdevastyle.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcmakebuilder.so
+%attr(755,root,root) %{_libdir}/kde4/kdevcmakedocumentation.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcmakemanager.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcoverage.so
 #%attr(755,root,root) %{_libdir}/kde4/kdevcppdebugger.so
@@ -193,6 +193,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevelop
 %dir %{_datadir}/apps/kdevgdb
 %{_datadir}/apps/kdevgdb/kdevgdbui.rc
+%dir %{_datadir}/apps/kdevgdb/printers
+%{_datadir}/apps/kdevgdb/printers/gdbinit
+%{_datadir}/apps/kdevgdb/printers/qt4.py
 %{_datadir}/apps/kdevgrepview
 #%{_datadir}/apps/kdevqmakebuilder
 #%{_datadir}/apps/kdevqtdesigner
@@ -215,6 +218,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kcm_kdevcmake_settings.desktop
 %{_datadir}/kde4/services/kdevastyle.desktop
 %{_datadir}/kde4/services/kdevcmakebuilder.desktop
+%{_datadir}/kde4/services/kdevcmakedocumentation.desktop
 %{_datadir}/kde4/services/kdevcmakemanager.desktop
 %{_datadir}/kde4/services/kdevcoverage.desktop
 #%{_datadir}/kde4/services/kdevcppdebugger.desktop
