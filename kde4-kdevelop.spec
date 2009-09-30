@@ -20,7 +20,7 @@ Group:		X11/Development/Tools
 # get it via: svn co svn://anonsvn.kde.org/home/kde/trunk/KDE/kdevelop
 #Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.bz2
 Source0:	%{orgname}-%{version}-%{svnrev}.tar.bz2
-# Source0-md5:	6d12a3fe107e5ad407a48c1e3036ddf6
+# Source0-md5:	1949513701e452768ab5a1a6f44c4f90
 URL:		http://www.kdevelop.org/
 BuildRequires:	cmake >= 2.6.2
 BuildRequires:	rpm-pythonprov
