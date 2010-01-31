@@ -27,22 +27,21 @@ BuildRequires:	QtCore-devel >= %{_qtver}
 BuildRequires:	QtDBus-devel >= %{_qtver}
 BuildRequires:	QtDesigner-devel >= %{_qtver}
 BuildRequires:	QtGui-devel >= %{_qtver}
-BuildRequires:	QtHelp-devel
+BuildRequires:	QtHelp-devel >= %{_qtver}
 BuildRequires:	QtNetwork-devel >= %{_qtver}
 BuildRequires:	QtScript-devel >= %{_qtver}
 BuildRequires:	QtSvg-devel >= %{_qtver}
 BuildRequires:	QtTest-devel >= %{_qtver}
-BuildRequires:	QtWebKit-devel
+BuildRequires:	QtWebKit-devel >= %{_qtver}
 BuildRequires:	automoc4
 BuildRequires:	cmake >= 2.6.2
-BuildRequires:	kde4-kdebase-workspace-devel
+BuildRequires:	kde4-kdebase-workspace-devel >= %{_kdever}
 BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
 BuildRequires:	kde4-kdevplatform-devel >= 0.9.97
 BuildRequires:	libstdc++-devel >= 3.3
-BuildRequires:	libstdc++-devel >= 3.3
 BuildRequires:	perl-base >= 5.8
-BuildRequires:	qt4-build
-BuildRequires:	qt4-qmake
+BuildRequires:	qt4-build >= %{_qtver}
+BuildRequires:	qt4-qmake >= %{_qtver}
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	zlib-devel >= 1.2.0
