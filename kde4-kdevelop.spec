@@ -22,27 +22,31 @@ Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-
 # Source0-md5:	260b4eae5962c1e57941ebbb64b42bb8
 #Source0:	%{orgname}-%{version}-%{svnrev}.tar.bz2
 URL:		http://www.kdevelop.org/
-BuildRequires:	cmake >= 2.6.2
-BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.129
-BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
-BuildRequires:	kde4-kdevplatform-devel >= 0.9.97
+BuildRequires:	Qt3Support-devel >= %{_qtver}
 BuildRequires:	QtCore-devel >= %{_qtver}
 BuildRequires:	QtDBus-devel >= %{_qtver}
 BuildRequires:	QtDesigner-devel >= %{_qtver}
 BuildRequires:	QtGui-devel >= %{_qtver}
+BuildRequires:	QtHelp-devel
 BuildRequires:	QtNetwork-devel >= %{_qtver}
 BuildRequires:	QtScript-devel >= %{_qtver}
-BuildRequires:	QtTest-devel >= %{_qtver}
 BuildRequires:	QtSvg-devel >= %{_qtver}
-BuildRequires:	Qt3Support-devel >= %{_qtver}
-BuildRequires:	perl-base >= 5.8
-BuildRequires:	zlib-devel >= 1.2.0
+BuildRequires:	QtTest-devel >= %{_qtver}
+BuildRequires:	QtWebKit-devel
+BuildRequires:	automoc4
+BuildRequires:	cmake >= 2.6.2
+BuildRequires:	kde4-kdebase-workspace-devel
+BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
+BuildRequires:	kde4-kdevplatform-devel >= 0.9.97
 BuildRequires:	libstdc++-devel >= 3.3
-BuildRequires:	gcc-c++ >= 3.3
+BuildRequires:	libstdc++-devel >= 3.3
+BuildRequires:	perl-base >= 5.8
+BuildRequires:	qt4-build
+BuildRequires:	qt4-qmake
+BuildRequires:	rpm-pythonprov
+BuildRequires:	rpmbuild(macros) >= 1.129
+BuildRequires:	zlib-devel >= 1.2.0
 BuildConflicts:	star
-Requires:	kde4-kdebase >= %{_kdever}
-Requires:	kde4-kdelibs >= %{_kdever}
 Requires:	QtCore >= %{_qtver}
 Requires:	QtDBus >= %{_qtver}
 Requires:	QtDesigner >= %{_qtver}
@@ -50,8 +54,10 @@ Requires:	QtGui >= %{_qtver}
 Requires:	QtNetwork >= %{_qtver}
 Requires:	QtScript >= %{_qtver}
 Requires:	glibc
-Requires:	libgcc
+Requires:	kde4-kdebase >= %{_kdever}
+Requires:	kde4-kdelibs >= %{_kdever}
 Requires:	kde4-kdevplatform >= 0.9.93
+Requires:	libgcc
 Requires:	libstdc++ >= 3.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -238,6 +244,6 @@ rm -rf $RPM_BUILD_ROOT
 #%{_datadir}/kde4/services/kdevqtest.desktop
 %{_datadir}/kde4/services/kdevqthelp.desktop
 #%{_datadir}/kde4/services/kdevvalgrind.desktop
-%{_datadir}/applications/kde4/kdevelop.desktop
+%{_desktopdir}/kde4/kdevelop.desktop
 
 %{_includedir}/kdevelop
