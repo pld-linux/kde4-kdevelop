@@ -3,7 +3,7 @@
 #
 %define		_state		unstable
 %define		_kdever		4.3.5
-%define		_qtver		4.6.1
+%define		qtver		4.6.1
 %define		svnrev		1027000
 %define		orgname		kdevelop
 
@@ -22,17 +22,17 @@ Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-
 # Source0-md5:	260b4eae5962c1e57941ebbb64b42bb8
 #Source0:	%{orgname}-%{version}-%{svnrev}.tar.bz2
 URL:		http://www.kdevelop.org/
-BuildRequires:	Qt3Support-devel >= %{_qtver}
-BuildRequires:	QtCore-devel >= %{_qtver}
-BuildRequires:	QtDBus-devel >= %{_qtver}
-BuildRequires:	QtDesigner-devel >= %{_qtver}
-BuildRequires:	QtGui-devel >= %{_qtver}
-BuildRequires:	QtHelp-devel >= %{_qtver}
-BuildRequires:	QtNetwork-devel >= %{_qtver}
-BuildRequires:	QtScript-devel >= %{_qtver}
-BuildRequires:	QtSvg-devel >= %{_qtver}
-BuildRequires:	QtTest-devel >= %{_qtver}
-BuildRequires:	QtWebKit-devel >= %{_qtver}
+BuildRequires:	Qt3Support-devel >= %{qtver}
+BuildRequires:	QtCore-devel >= %{qtver}
+BuildRequires:	QtDBus-devel >= %{qtver}
+BuildRequires:	QtDesigner-devel >= %{qtver}
+BuildRequires:	QtGui-devel >= %{qtver}
+BuildRequires:	QtHelp-devel >= %{qtver}
+BuildRequires:	QtNetwork-devel >= %{qtver}
+BuildRequires:	QtScript-devel >= %{qtver}
+BuildRequires:	QtSvg-devel >= %{qtver}
+BuildRequires:	QtTest-devel >= %{qtver}
+BuildRequires:	QtWebKit-devel >= %{qtver}
 BuildRequires:	automoc4
 BuildRequires:	cmake >= 2.6.2
 BuildRequires:	kde4-kdebase-workspace-devel >= %{_kdever}
@@ -40,24 +40,16 @@ BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
 BuildRequires:	kde4-kdevplatform-devel >= 0.9.97
 BuildRequires:	libstdc++-devel >= 3.3
 BuildRequires:	perl-base >= 5.8
-BuildRequires:	qt4-build >= %{_qtver}
-BuildRequires:	qt4-qmake >= %{_qtver}
+BuildRequires:	qt4-build >= %{qtver}
+BuildRequires:	qt4-qmake >= %{qtver}
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	zlib-devel >= 1.2.0
 BuildConflicts:	star
-Requires:	QtCore >= %{_qtver}
-Requires:	QtDBus >= %{_qtver}
-Requires:	QtDesigner >= %{_qtver}
-Requires:	QtGui >= %{_qtver}
-Requires:	QtNetwork >= %{_qtver}
-Requires:	QtScript >= %{_qtver}
-Requires:	glibc
 Requires:	kde4-kdebase >= %{_kdever}
 Requires:	kde4-kdelibs >= %{_kdever}
 Requires:	kde4-kdevplatform >= 0.9.93
 Requires:	libgcc
-Requires:	libstdc++ >= 3.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
