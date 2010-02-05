@@ -48,7 +48,7 @@ BuildRequires:	zlib-devel >= 1.2.0
 BuildConflicts:	star
 Requires:	kde4-kdebase >= %{_kdever}
 Requires:	kde4-kdelibs >= %{_kdever}
-Requires:	kde4-kdevplatform >= 0.9.93
+Requires:	kde4-kdevplatform >= 0.9.97
 Requires:	libgcc
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
