@@ -13,13 +13,13 @@ Summary(pl.UTF-8):	Zintegrowane środowisko programisty dla KDE
 Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
-Version:	3.9.98
+Version:	3.9.99
 Release:	0.1
 License:	GPL
 Group:		X11/Development/Tools
 # get it via: svn co svn://anonsvn.kde.org/home/kde/trunk/KDE/kdevelop
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	335fa118aa57c25a1793d2c45526a89f
+# Source0-md5:	4b0b9bb343da46ead3ae9632a0bd9ce9
 #Source0:	%{orgname}-%{version}-%{svnrev}.tar.bz2
 URL:		http://www.kdevelop.org/
 BuildRequires:	Qt3Support-devel >= %{qtver}
@@ -37,7 +37,7 @@ BuildRequires:	automoc4
 BuildRequires:	cmake >= 2.6.2
 BuildRequires:	kde4-kdebase-workspace-devel >= %{_kdever}
 BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
-BuildRequires:	kde4-kdevplatform-devel >= ${version}
+BuildRequires:	kde4-kdevplatform-devel >= 0.9.99
 BuildRequires:	libstdc++-devel >= 3.3
 BuildRequires:	perl-base >= 5.8
 BuildRequires:	qt4-build >= %{qtver}
