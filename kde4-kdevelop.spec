@@ -37,7 +37,7 @@ BuildRequires:	automoc4
 BuildRequires:	cmake >= 2.6.2
 BuildRequires:	kde4-kdebase-workspace-devel >= %{_kdever}
 BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
-BuildRequires:	kde4-kdevplatform-devel >= 0.9.97
+BuildRequires:	kde4-kdevplatform-devel >= ${version}
 BuildRequires:	libstdc++-devel >= 3.3
 BuildRequires:	perl-base >= 5.8
 BuildRequires:	qt4-build >= %{qtver}
