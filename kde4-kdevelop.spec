@@ -12,12 +12,12 @@ Summary(pl.UTF-8):	Zintegrowane środowisko programisty dla KDE
 Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
-Version:	3.10.0
+Version:	3.10.2
 Release:	0.1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	e1176595b4396672d666c8a76ea2fb5c
+# Source0-md5:	328b9d352624c10e6cde7168d8af5329
 URL:		http://www.kdevelop.org/
 BuildRequires:	Qt3Support-devel >= %{qtver}
 BuildRequires:	QtCore-devel >= %{qtver}
@@ -34,7 +34,7 @@ BuildRequires:	automoc4
 BuildRequires:	cmake >= 2.6.2
 BuildRequires:	kde4-kdebase-workspace-devel >= %{_kdever}
 BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
-BuildRequires:	kde4-kdevplatform-devel >= 0.9.99
+BuildRequires:	kde4-kdevplatform-devel >= 0.10.2
 BuildRequires:	libstdc++-devel >= 3.3
 BuildRequires:	perl-base >= 5.8
 BuildRequires:	qt4-build >= %{qtver}
@@ -142,13 +142,15 @@ install -d $RPM_BUILD_ROOT%{_desktopdir}
 
 install app/kdevelop.desktop $RPM_BUILD_ROOT%{_desktopdir}
 
+%find_lang %{orgname} --all-name
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
 
-%files
+%files -f %{orgname}.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/kdevelop
 %attr(755,root,root) %{_bindir}/kdevelop.bin
