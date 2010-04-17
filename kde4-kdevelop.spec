@@ -29,9 +29,11 @@ BuildRequires:	QtNetwork-devel >= %{qtver}
 BuildRequires:	QtScript-devel >= %{qtver}
 BuildRequires:	QtSvg-devel >= %{qtver}
 BuildRequires:	QtTest-devel >= %{qtver}
+BuildRequires:	QtUiTools-devel >= %{qtver}
 BuildRequires:	QtWebKit-devel >= %{qtver}
 BuildRequires:	automoc4
 BuildRequires:	cmake >= 2.6.2
+BuildRequires:	gettext-devel
 BuildRequires:	kde4-kdebase-workspace-devel >= %{_kdever}
 BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
 BuildRequires:	kde4-kdevplatform-devel >= 0.10.2
