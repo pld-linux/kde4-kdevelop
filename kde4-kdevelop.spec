@@ -1,7 +1,7 @@
 #
 # Conditional build:
 #
-%define		_state		unstable
+%define		_state		stable
 %define		_kdever		4.4.2
 %define		qtver		4.6.2
 %define		orgname		kdevelop
@@ -12,12 +12,12 @@ Summary(pl.UTF-8):	Zintegrowane środowisko programisty dla KDE
 Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
-Version:	3.10.2
+Version:	4.0.0
 Release:	0.1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	328b9d352624c10e6cde7168d8af5329
+# Source0-md5:	9f63a0f68bc30d34c79f935386fb512d
 URL:		http://www.kdevelop.org/
 BuildRequires:	Qt3Support-devel >= %{qtver}
 BuildRequires:	QtCore-devel >= %{qtver}
@@ -199,6 +199,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kdevindent.desktop
 %{_datadir}/kde4/services/kdevmakebuilder.desktop
 %{_datadir}/kde4/services/kdevqthelp.desktop
+%{_datadir}/mime/packages/kdevelop.xml
 %{_desktopdir}/kdevelop.desktop
 %{_desktopdir}/kde4/kdevelop.desktop
 %{_iconsdir}/*/*x*/*/*.png
