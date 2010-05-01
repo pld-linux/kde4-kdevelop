@@ -2,7 +2,7 @@
 # Conditional build:
 #
 %define		_state		stable
-%define		_kdever		4.4.2
+%define		_kdever		4.4.3
 %define		qtver		4.6.2
 %define		orgname		kdevelop
 
@@ -13,7 +13,7 @@ Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
 Version:	4.0.0
-Release:	0.1
+Release:	1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.bz2
@@ -32,11 +32,11 @@ BuildRequires:	QtTest-devel >= %{qtver}
 BuildRequires:	QtUiTools-devel >= %{qtver}
 BuildRequires:	QtWebKit-devel >= %{qtver}
 BuildRequires:	automoc4
-BuildRequires:	cmake >= 2.6.2
+BuildRequires:	cmake >= 2.8.0
 BuildRequires:	gettext-devel
 BuildRequires:	kde4-kdebase-workspace-devel >= %{_kdever}
 BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
-BuildRequires:	kde4-kdevplatform-devel >= 0.10.2
+BuildRequires:	kde4-kdevplatform-devel >= 1.0.0
 BuildRequires:	libstdc++-devel >= 3.3
 BuildRequires:	perl-base >= 5.8
 BuildRequires:	qt4-build >= %{qtver}
