@@ -45,6 +45,8 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	zlib-devel >= 1.2.0
 BuildConflicts:	star
+Requires(post,postun):	desktop-file-utils
+Requires(post,postun):	shared-mime-info
 Requires:	kde4-kdebase >= %{_kdever}
 Requires:	kde4-kdelibs >= %{_kdever}
 Requires:	kde4-kdevplatform >= 0.9.97
@@ -149,8 +151,15 @@ install app/kdevelop.desktop $RPM_BUILD_ROOT%{_desktopdir}
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p /sbin/ldconfig
-%postun	-p /sbin/ldconfig
+%post
+/sbin/ldconfig
+%update_mime_database
+%update_desktop_database
+
+%postun
+/sbin/ldconfig
+%update_mime_database
+%update_desktop_database_postun
 
 %files -f %{orgname}.lang
 %defattr(644,root,root,755)
