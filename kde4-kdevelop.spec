@@ -2,9 +2,10 @@
 # Conditional build:
 #
 %define		_state		stable
-%define		_kdever		4.4.3
-%define		qtver		4.6.2
+%define		_kdever		4.4.5
+%define		qtver		4.6.3
 %define		orgname		kdevelop
+%define		kdevplatform	1.0.1
 
 Summary:	KDE Integrated Development Environment
 Summary(de.UTF-8):	KDevelop ist eine grafische Entwicklungsumgebung für KDE
@@ -12,12 +13,12 @@ Summary(pl.UTF-8):	Zintegrowane środowisko programisty dla KDE
 Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
-Version:	4.0.0
+Version:	4.0.1
 Release:	1
 License:	GPL
 Group:		X11/Development/Tools
-Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	9f63a0f68bc30d34c79f935386fb512d
+Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/%{orgname}-%{version}.tar.bz2
+# Source0-md5:	0538996c8cf47352fb075d8d301892fe
 URL:		http://www.kdevelop.org/
 BuildRequires:	Qt3Support-devel >= %{qtver}
 BuildRequires:	QtCore-devel >= %{qtver}
@@ -36,7 +37,7 @@ BuildRequires:	cmake >= 2.8.0
 BuildRequires:	gettext-devel
 BuildRequires:	kde4-kdebase-workspace-devel >= %{_kdever}
 BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
-BuildRequires:	kde4-kdevplatform-devel >= 1.0.0
+BuildRequires:	kde4-kdevplatform-devel >= %{kdevplatform}
 BuildRequires:	libstdc++-devel >= 3.3
 BuildRequires:	perl-base >= 5.8
 BuildRequires:	qt4-build >= %{qtver}
