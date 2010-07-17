@@ -2,7 +2,7 @@
 # Conditional build:
 #
 %define		_state		stable
-%define		_kdever		4.4.5
+%define		kdever		4.4.5
 %define		qtver		4.6.3
 %define		orgname		kdevelop
 %define		kdevplatform	1.0.1
@@ -20,26 +20,15 @@ Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/%{orgname}-%{version}.tar.bz2
 # Source0-md5:	0538996c8cf47352fb075d8d301892fe
 URL:		http://www.kdevelop.org/
-BuildRequires:	Qt3Support-devel >= %{qtver}
-BuildRequires:	QtCore-devel >= %{qtver}
-BuildRequires:	QtDBus-devel >= %{qtver}
-BuildRequires:	QtDesigner-devel >= %{qtver}
-BuildRequires:	QtGui-devel >= %{qtver}
 BuildRequires:	QtHelp-devel >= %{qtver}
 BuildRequires:	QtNetwork-devel >= %{qtver}
-BuildRequires:	QtScript-devel >= %{qtver}
-BuildRequires:	QtSvg-devel >= %{qtver}
-BuildRequires:	QtTest-devel >= %{qtver}
-BuildRequires:	QtUiTools-devel >= %{qtver}
-BuildRequires:	QtWebKit-devel >= %{qtver}
 BuildRequires:	automoc4
 BuildRequires:	cmake >= 2.8.0
 BuildRequires:	gettext-devel
-BuildRequires:	kde4-kdebase-workspace-devel >= %{_kdever}
-BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
+BuildRequires:	kde4-kdebase-workspace-devel >= %{kdever}
+BuildRequires:	kde4-kdelibs-devel >= %{kdever}
 BuildRequires:	kde4-kdevplatform-devel >= %{kdevplatform}
 BuildRequires:	libstdc++-devel >= 3.3
-BuildRequires:	perl-base >= 5.8
 BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	qt4-qmake >= %{qtver}
 BuildRequires:	rpm-pythonprov
@@ -48,10 +37,6 @@ BuildRequires:	zlib-devel >= 1.2.0
 BuildConflicts:	star
 Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	shared-mime-info
-Requires:	kde4-kdebase >= %{_kdever}
-Requires:	kde4-kdelibs >= %{_kdever}
-Requires:	kde4-kdevplatform >= 0.9.97
-Requires:	libgcc
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
