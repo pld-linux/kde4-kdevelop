@@ -1,11 +1,11 @@
 #
 # Conditional build:
 #
-%define		_state		stable
-%define		kdever		4.4.5
-%define		qtver		4.6.3
+%define		_state		unstable
+%define		kdever		4.5.2
+%define		qtver		4.7.0
 %define		orgname		kdevelop
-%define		kdevplatform	1.0.2
+%define		kdevplatform	1.0.90
 
 Summary:	KDE Integrated Development Environment
 Summary(de.UTF-8):	KDevelop ist eine grafische Entwicklungsumgebung für KDE
@@ -13,12 +13,12 @@ Summary(pl.UTF-8):	Zintegrowane środowisko programisty dla KDE
 Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
-Version:	4.0.2
+Version:	4.0.90
 Release:	1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	5390087c06574892baaf6f2e7a2f9d05
+# Source0-md5:	2d0028a60a0beecb0e3f6e442f2e7be3
 URL:		http://www.kdevelop.org/
 BuildRequires:	QtHelp-devel >= %{qtver}
 BuildRequires:	QtNetwork-devel >= %{qtver}
@@ -150,7 +150,6 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{orgname}.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/kdevelop
-%attr(755,root,root) %{_bindir}/kdevelop.bin
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_makebuilder.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdevcmake_settings.so
 %attr(755,root,root) %{_libdir}/kde4/kdevastyle.so
@@ -163,10 +162,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevindent.so
 %attr(755,root,root) %{_libdir}/kde4/kdevmakebuilder.so
 %attr(755,root,root) %{_libdir}/kde4/kdevqthelp.so
+%attr(755,root,root) %{_libdir}/kde4/kdevkdeprovider.so
 %attr(755,root,root) %{_libdir}/libkdev4cmakecommon.so
 %attr(755,root,root) %{_libdir}/libkdev4cppduchain.so
 %attr(755,root,root) %{_libdir}/libkdev4cppparser.so
 %attr(755,root,root) %{_libdir}/libkdev4cpprpp.so
+
 %{_datadir}/apps/kdevappwizard
 %{_datadir}/apps/kdevcmakebuilder
 %{_datadir}/apps/kdevcmakemanager
@@ -194,6 +195,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kdevindent.desktop
 %{_datadir}/kde4/services/kdevmakebuilder.desktop
 %{_datadir}/kde4/services/kdevqthelp.desktop
+%{_datadir}/kde4/services/kdevkdeprovider.desktop
 %{_datadir}/mime/packages/kdevelop.xml
 %{_desktopdir}/kdevelop.desktop
 %{_desktopdir}/kde4/kdevelop.desktop
