@@ -1,11 +1,11 @@
 #
 # Conditional build:
 #
-%define		_state		stable
-%define		kdever		4.5.2
+%define		_state		unstable
+%define		kdever		4.5.4
 %define		qtver		4.7.0
 %define		orgname		kdevelop
-%define		kdevplatform	1.1.1
+%define		kdevplatform	1.1.80
 
 Summary:	KDE Integrated Development Environment
 Summary(de.UTF-8):	KDevelop ist eine grafische Entwicklungsumgebung für KDE
@@ -13,12 +13,12 @@ Summary(pl.UTF-8):	Zintegrowane środowisko programisty dla KDE
 Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
-Version:	4.1.1
+Version:	4.1.80
 Release:	1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	bf26c9d4ade12cf9f98a3bf234f37335
+# Source0-md5:	1c25d93f960b26883b329631df8ce46b
 URL:		http://www.kdevelop.org/
 BuildRequires:	QtHelp-devel >= %{qtver}
 BuildRequires:	QtNetwork-devel >= %{qtver}
@@ -161,13 +161,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevgdb.so
 %attr(755,root,root) %{_libdir}/kde4/kdevindent.so
 %attr(755,root,root) %{_libdir}/kde4/kdevmakebuilder.so
+%attr(755,root,root) %{_libdir}/kde4/kdevmanpage.so
 %attr(755,root,root) %{_libdir}/kde4/kdevqthelp.so
 %attr(755,root,root) %{_libdir}/kde4/kdevkdeprovider.so
 %attr(755,root,root) %{_libdir}/libkdev4cmakecommon.so
 %attr(755,root,root) %{_libdir}/libkdev4cppduchain.so
 %attr(755,root,root) %{_libdir}/libkdev4cppparser.so
 %attr(755,root,root) %{_libdir}/libkdev4cpprpp.so
-
 %{_datadir}/apps/kdevappwizard
 %{_datadir}/apps/kdevcmakebuilder
 %{_datadir}/apps/kdevcmakemanager
@@ -194,7 +194,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kdevgdb.desktop
 %{_datadir}/kde4/services/kdevindent.desktop
 %{_datadir}/kde4/services/kdevmakebuilder.desktop
+%{_datadir}/kde4/services/kdevmanpage.desktop
 %{_datadir}/kde4/services/kdevqthelp.desktop
+%{_datadir}/kde4/services/kdevqthelp_config.desktop
 %{_datadir}/kde4/services/kdevkdeprovider.desktop
 %{_datadir}/mime/packages/kdevelop.xml
 %{_desktopdir}/kdevelop.desktop
