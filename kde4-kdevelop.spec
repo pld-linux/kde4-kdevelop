@@ -1,11 +1,11 @@
 #
 # Conditional build:
 #
-%define		_state		unstable
-%define		kdever		4.5.4
-%define		qtver		4.7.0
+%define		_state		stable
+%define		kdever		4.6.0
+%define		qtver		4.7.1
 %define		orgname		kdevelop
-%define		kdevplatform	1.1.80
+%define		kdevplatform	1.2.0
 
 Summary:	KDE Integrated Development Environment
 Summary(de.UTF-8):	KDevelop ist eine grafische Entwicklungsumgebung für KDE
@@ -13,12 +13,12 @@ Summary(pl.UTF-8):	Zintegrowane środowisko programisty dla KDE
 Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
-Version:	4.1.80
+Version:	4.2.0
 Release:	1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	1c25d93f960b26883b329631df8ce46b
+# Source0-md5:	f418966fd2545d40e841c88121e7b93a
 URL:		http://www.kdevelop.org/
 BuildRequires:	QtHelp-devel >= %{qtver}
 BuildRequires:	QtNetwork-devel >= %{qtver}
@@ -27,12 +27,13 @@ BuildRequires:	cmake >= 2.8.0
 BuildRequires:	gettext-devel
 BuildRequires:	kde4-kdebase-workspace-devel >= %{kdever}
 BuildRequires:	kde4-kdelibs-devel >= %{kdever}
+BuildRequires:	kde4-kdesdk-devel >= %{kdever}
 BuildRequires:	kde4-kdevplatform-devel >= %{kdevplatform}
 BuildRequires:	libstdc++-devel >= 3.3
 BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	qt4-qmake >= %{qtver}
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.129
+BuildRequires:	rpmbuild(macros) >= 1.600
 BuildRequires:	zlib-devel >= 1.2.0
 BuildConflicts:	star
 Requires(post,postun):	desktop-file-utils
@@ -116,9 +117,6 @@ pisaniu własnych programów wykorzystujących kdevelop.
 install -d build
 cd build
 %cmake \
-	-DCMAKE_BUILD_TYPE=%{!?debug:Release}%{?debug:Debug} \
-	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
-	-DSYSCONF_INSTALL_DIR=%{_sysconfdir} \
 	../
 %{__make}
 
@@ -160,9 +158,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevcustommakemanager.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgdb.so
 %attr(755,root,root) %{_libdir}/kde4/kdevindent.so
+%attr(755,root,root) %{_libdir}/kde4/kdevokteta.so
 %attr(755,root,root) %{_libdir}/kde4/kdevmakebuilder.so
 %attr(755,root,root) %{_libdir}/kde4/kdevmanpage.so
 %attr(755,root,root) %{_libdir}/kde4/kdevqthelp.so
+%attr(755,root,root) %{_libdir}/kde4/kdevqthelp_config.so
 %attr(755,root,root) %{_libdir}/kde4/kdevkdeprovider.so
 %attr(755,root,root) %{_libdir}/libkdev4cmakecommon.so
 %attr(755,root,root) %{_libdir}/libkdev4cppduchain.so
@@ -180,6 +180,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevgdb/printers/qt4.py
 %{_datadir}/apps/kdevgdb/printers/kde4.py
 %{_datadir}/apps/kdevgdb/printers/libstdcxx.py
+%{_datadir}/apps/kdevokteta
 %{_datadir}/config/kdeveloprc
 %dir %{_datadir}/apps/kdevcppsupport
 %{_datadir}/apps/kdevcppsupport/kdevcppsupport.rc
@@ -195,6 +196,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kdevindent.desktop
 %{_datadir}/kde4/services/kdevmakebuilder.desktop
 %{_datadir}/kde4/services/kdevmanpage.desktop
+%{_datadir}/kde4/services/kdevokteta.desktop
 %{_datadir}/kde4/services/kdevqthelp.desktop
 %{_datadir}/kde4/services/kdevqthelp_config.desktop
 %{_datadir}/kde4/services/kdevkdeprovider.desktop
