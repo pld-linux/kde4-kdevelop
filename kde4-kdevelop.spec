@@ -14,7 +14,7 @@ Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
 Version:	4.2.0
-Release:	2
+Release:	3
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.bz2
@@ -27,6 +27,8 @@ BuildRequires:	cmake >= 2.8.0
 BuildRequires:	gettext-devel
 BuildRequires:	kde4-kdebase-workspace-devel >= %{kdever}
 BuildRequires:	kde4-kdelibs-devel >= %{kdever}
+# drop when 4.6.1 is released
+BuildRequires:	kde4-kdesdk-devel >= 4.6.0-2
 BuildRequires:	kde4-kdesdk-devel >= %{kdever}
 BuildRequires:	kde4-kdevplatform-devel >= %{kdevplatform}
 BuildRequires:	libstdc++-devel >= 3.3
