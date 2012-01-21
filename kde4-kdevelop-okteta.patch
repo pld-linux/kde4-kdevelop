@@ -1,0 +1,963 @@
+diff -Nur kdevelop-4.2.3/cmake/modules/FindLibKasten.cmake kdevelop-4.2.3-okteta08/cmake/modules/FindLibKasten.cmake
+--- kdevelop-4.2.3/cmake/modules/FindLibKasten.cmake	2011-06-24 21:04:01.000000000 +0200
++++ kdevelop-4.2.3-okteta08/cmake/modules/FindLibKasten.cmake	2011-12-24 01:07:30.000000000 +0100
+@@ -1,73 +1,162 @@
+-# - Find Kasten library
++# - Find Kasten libraries, v0 or v1
+ #
+ # This module defines
+ #  LIBKASTEN_FOUND - whether the libkasten libraries were found
++#  LIBKASTEN_VERSION - version of the libkasten libraries found
+ #  LIBKASTEN_LIBRARIES - the libkasten libraries
+-#  LIBKASTEN_INCLUDE_DIR - the include path of the libkasten libraries
++#  LIBKASTEN_INCLUDE_DIRS - the include paths of the libkasten libraries
+ 
+ 
+-if( LIBKASTEN_INCLUDE_DIR AND LIBKASTEN_LIBRARIES )
++if( LIBKASTEN_INCLUDE_DIR AND LIBKASTEN_LIBRARIES AND LIBKASTEN_VERSION )
+     # Already in cache, be silent
+     set( Kasten_FIND_QUIETLY TRUE )
+-endif( LIBKASTEN_INCLUDE_DIR AND LIBKASTEN_LIBRARIES )
++endif( LIBKASTEN_INCLUDE_DIR AND LIBKASTEN_LIBRARIES AND LIBKASTEN_VERSION )
+ 
+-
+-find_library( LIBKASTENCORE_LIBRARY
+-  NAMES
+-  kastencore
+-  HINTS
+-  ${LIB_INSTALL_DIR}
+-  ${KDE4_LIB_DIR}
+-)
+-
+-find_library( LIBKASTENGUI_LIBRARY
+-  NAMES
+-  kastengui
+-  HINTS
+-  ${LIB_INSTALL_DIR}
+-  ${KDE4_LIB_DIR}
+-)
+-
+-find_library( LIBKASTENCONTROLLERS_LIBRARY
+-  NAMES
+-  kastencontrollers
+-  HINTS
+-  ${LIB_INSTALL_DIR}
+-  ${KDE4_LIB_DIR}
+-)
+-
+-set( LIBKASTEN_LIBRARIES
+-  ${LIBKASTENCORE_LIBRARY}
+-  ${LIBKASTENGUI_LIBRARY}
+-  ${LIBKASTENCONTROLLERS_LIBRARY}
+-)
+-
+-
+-find_path( LIBKASTEN_INCLUDE_DIR
+-  NAMES
+-  abstractmodel.h
+-  PATH_SUFFIXES
+-  kasten
+-  HINTS
+-  ${INCLUDE_INSTALL_DIR}
+-  ${KDE4_INCLUDE_DIR}
+-)
+-
+-if( LIBKASTEN_INCLUDE_DIR AND LIBKASTEN_LIBRARIES )
+-   set( LIBKASTEN_FOUND  TRUE )
+-else( LIBKASTEN_INCLUDE_DIR AND LIBKASTEN_LIBRARIES )
+-   set( LIBKASTEN_FOUND  FALSE )
+-endif( LIBKASTEN_INCLUDE_DIR AND LIBKASTEN_LIBRARIES )
++if( LIBKASTEN_FIND_VERSION EQUAL 1 )
++    find_library( KASTEN1_CORE_LIB
++        NAMES
++        kasten1core
++        HINTS
++        ${LIB_INSTALL_DIR}
++        ${KDE4_LIB_DIR}
++    )
++
++    find_library( KASTEN1_GUI_LIB
++        NAMES
++        kasten1gui
++        HINTS
++        ${LIB_INSTALL_DIR}
++        ${KDE4_LIB_DIR}
++    )
++
++    find_library( KASTEN1_CONTROLLERS_LIB
++        NAMES
++        kasten1controllers
++        HINTS
++        ${LIB_INSTALL_DIR}
++        ${KDE4_LIB_DIR}
++    )
++
++    find_path( KASTEN1_NORMAL_INCLUDE_DIR
++        NAMES
++        abstractmodel.h
++        PATH_SUFFIXES
++        kasten1
++        HINTS
++        ${INCLUDE_INSTALL_DIR}
++        ${KDE4_INCLUDE_DIR}
++    )
++
++    find_path( KASTEN1_CAMELCASE_INCLUDE_DIR
++        NAMES
++        Kasten1/AbstractModel
++        PATH_SUFFIXES
++        KDE
++        HINTS
++        ${INCLUDE_INSTALL_DIR}
++        ${KDE4_INCLUDE_DIR}
++    )
++
++
++    if( KASTEN1_NORMAL_INCLUDE_DIR AND KASTEN1_CAMELCASE_INCLUDE_DIR AND
++        KASTEN1_CORE_LIB AND KASTEN1_GUI_LIB AND KASTEN1_CONTROLLERS_LIB )
++        set( LIBKASTEN_FOUND TRUE )
++    endif( KASTEN1_NORMAL_INCLUDE_DIR AND KASTEN1_CAMELCASE_INCLUDE_DIR AND
++        KASTEN1_CORE_LIB AND KASTEN1_GUI_LIB AND KASTEN1_CONTROLLERS_LIB )
++
++    if( LIBKASTEN_FOUND )
++        set( LIBKASTEN_VERSION 1 )
++        set( LIBKASTEN_INCLUDE_DIRS
++            ${KASTEN1_NORMAL_INCLUDE_DIR}
++            ${KASTEN1_CAMELCASE_INCLUDE_DIR}
++        )
++        set( LIBKASTEN_LIBRARIES
++            ${KASTEN1_CORE_LIB}
++            ${KASTEN1_GUI_LIB}
++            ${KASTEN1_CONTROLLERS_LIB}
++        )
++    endif( LIBKASTEN_FOUND )
++endif( LIBKASTEN_FIND_VERSION EQUAL 1 )
++
++if( LIBKASTEN_FIND_VERSION EQUAL 0 )
++    find_library( LIBKASTENCORE0_LIBRARY
++        NAMES
++        kastencore
++        HINTS
++        ${LIB_INSTALL_DIR}
++        ${KDE4_LIB_DIR}
++    )
++
++    find_library( LIBKASTENGUI0_LIBRARY
++        NAMES
++        kastengui
++        HINTS
++        ${LIB_INSTALL_DIR}
++        ${KDE4_LIB_DIR}
++    )
++
++    find_library( LIBKASTENCONTROLLERS0_LIBRARY
++        NAMES
++        kastencontrollers
++        HINTS
++        ${LIB_INSTALL_DIR}
++        ${KDE4_LIB_DIR}
++    )
++
++
++    find_path( LIBKASTEN0_NORMAL_INCLUDE_DIR
++        NAMES
++        abstractmodel.h
++        PATH_SUFFIXES
++        kasten
++        HINTS
++        ${INCLUDE_INSTALL_DIR}
++        ${KDE4_INCLUDE_DIR}
++    )
++
++    find_path( LIBKASTEN0_CAMELCASE_INCLUDE_DIR
++        NAMES
++        Kasten/AbstractModel
++        PATH_SUFFIXES
++        KDE
++        HINTS
++        ${INCLUDE_INSTALL_DIR}
++        ${KDE4_INCLUDE_DIR}
++    )
++
++    if( LIBKASTEN0_NORMAL_INCLUDE_DIR AND LIBKASTEN0_CAMELCASE_INCLUDE_DIR AND
++        LIBKASTENCORE0_LIBRARY AND LIBKASTENGUI0_LIBRARY AND LIBKASTENCONTROLLERS0_LIBRARY )
++        set( LIBKASTEN_FOUND TRUE )
++    endif( LIBKASTEN0_NORMAL_INCLUDE_DIR AND LIBKASTEN0_CAMELCASE_INCLUDE_DIR AND
++           LIBKASTENCORE0_LIBRARY AND LIBKASTENGUI0_LIBRARY AND LIBKASTENCONTROLLERS0_LIBRARY )
++
++    if( LIBKASTEN_FOUND )
++        set( LIBKASTEN_VERSION 0 )
++        set( LIBKASTEN_INCLUDE_DIRS
++            ${LIBKASTEN0_NORMAL_INCLUDE_DIR}
++            ${LIBKASTEN0_CAMELCASE_INCLUDE_DIR}
++        )
++        set( LIBKASTEN_LIBRARIES
++            ${LIBKASTENCORE0_LIBRARY}
++            ${LIBKASTENGUI0_LIBRARY}
++            ${LIBKASTENCONTROLLERS0_LIBRARY}
++        )
++    endif( LIBKASTEN_FOUND )
++endif( LIBKASTEN_FIND_VERSION EQUAL 0 )
+ 
+ 
+ if( LIBKASTEN_FOUND )
+-   if( NOT Kasten_FIND_QUIETLY )
+-      message( STATUS "Found Kasten libraries: ${LIBKASTEN_LIBRARIES}" )
+-   endif( NOT Kasten_FIND_QUIETLY )
++    if( NOT Kasten_FIND_QUIETLY )
++        message( STATUS "Found Kasten libraries v${LIBKASTEN_VERSION}: ${LIBKASTEN_LIBRARIES}" )
++    endif( NOT Kasten_FIND_QUIETLY )
+ else( LIBKASTEN_FOUND )
+-   if( LibKasten_FIND_REQUIRED )
+-      message( FATAL_ERROR "Could not find Kasten libraries" )
+-   endif( LibKasten_FIND_REQUIRED )
++    if( LibKasten_FIND_REQUIRED )
++        message( FATAL_ERROR "Could not find Kasten libraries." )
++    endif( LibKasten_FIND_REQUIRED )
+ endif( LIBKASTEN_FOUND )
+ 
+-mark_as_advanced( LIBKASTEN_INCLUDE_DIR LIBKASTEN_LIBRARIES )
++mark_as_advanced(
++    LIBKASTEN_INCLUDE_DIRS
++    LIBKASTEN_LIBRARIES
++    LIBKASTEN_VERSION
++)
+diff -Nur kdevelop-4.2.3/cmake/modules/FindLibOkteta.cmake kdevelop-4.2.3-okteta08/cmake/modules/FindLibOkteta.cmake
+--- kdevelop-4.2.3/cmake/modules/FindLibOkteta.cmake	2011-06-24 21:04:01.000000000 +0200
++++ kdevelop-4.2.3-okteta08/cmake/modules/FindLibOkteta.cmake	2011-12-24 01:07:55.000000000 +0100
+@@ -1,64 +1,146 @@
+-# - Find Okteta library
++# - Find Okteta libraries, v0 or v1
+ #
+ # This module defines
+ #  LIBOKTETA_FOUND - whether the libokteta libraries were found
++#  LIBOKTETA_VERSION - version of the libokteta libraries found
+ #  LIBOKTETA_LIBRARIES - the libokteta libraries
+-#  LIBOKTETA_INCLUDE_DIR - the include path of the libokteta libraries
++#  LIBOKTETA_INCLUDE_DIRS - the include paths of the libokteta libraries
+ 
+ 
+-if( LIBOKTETA_INCLUDE_DIR AND LIBOKTETA_LIBRARIES )
++if( LIBOKTETA_INCLUDE_DIRS AND LIBOKTETA_LIBRARIES AND LIBOKTETA_VERSION )
+     # Already in cache, be silent
+     set( Okteta_FIND_QUIETLY TRUE )
+-endif( LIBOKTETA_INCLUDE_DIR AND LIBOKTETA_LIBRARIES )
++endif( LIBOKTETA_INCLUDE_DIRS AND LIBOKTETA_LIBRARIES AND LIBOKTETA_VERSION )
+ 
+-
+-find_library( LIBOKTETACORE_LIBRARY
+-  NAMES
+-  oktetacore
+-  HINTS
+-  ${LIB_INSTALL_DIR}
+-  ${KDE4_LIB_DIR}
+-)
+-
+-find_library( LIBOKTETAGUI_LIBRARY
+-  NAMES
+-  oktetagui
+-  HINTS
+-  ${LIB_INSTALL_DIR}
+-  ${KDE4_LIB_DIR}
+-)
+-
+-set( LIBOKTETA_LIBRARIES
+-  ${LIBOKTETACORE_LIBRARY}
+-  ${LIBOKTETAGUI_LIBRARY}
+-)
+-
+-
+-find_path( LIBOKTETA_INCLUDE_DIR
+-  NAMES
+-  abstractbytearraymodel.h
+-  PATH_SUFFIXES
+-  okteta
+-  HINTS
+-  ${INCLUDE_INSTALL_DIR}
+-  ${KDE4_INCLUDE_DIR}
+-)
+-
+-if( LIBOKTETA_INCLUDE_DIR AND LIBOKTETA_LIBRARIES )
+-   set( LIBOKTETA_FOUND  TRUE )
+-else( LIBOKTETA_INCLUDE_DIR AND LIBOKTETA_LIBRARIES )
+-   set( LIBOKTETA_FOUND  FALSE )
+-endif( LIBOKTETA_INCLUDE_DIR AND LIBOKTETA_LIBRARIES )
++if( LIBOKTETA_FIND_VERSION EQUAL 1 )
++    find_library( LIBOKTETACORE1_LIBRARY
++        NAMES
++        okteta1core
++        HINTS
++        ${LIB_INSTALL_DIR}
++        ${KDE4_LIB_DIR}
++    )
++
++    find_library( LIBOKTETAGUI1_LIBRARY
++        NAMES
++        okteta1gui
++        HINTS
++        ${LIB_INSTALL_DIR}
++        ${KDE4_LIB_DIR}
++    )
++
++
++    find_path( LIBOKTETA1_NORMAL_INCLUDE_DIR
++        NAMES
++        abstractbytearraymodel.h
++        PATH_SUFFIXES
++        okteta1
++        HINTS
++        ${INCLUDE_INSTALL_DIR}
++        ${KDE4_INCLUDE_DIR}
++    )
++
++    find_path( LIBOKTETA1_CAMELCASE_INCLUDE_DIR
++        NAMES
++        Okteta1/AbstractByteArrayModel
++        PATH_SUFFIXES
++        KDE
++        HINTS
++        ${INCLUDE_INSTALL_DIR}
++        ${KDE4_INCLUDE_DIR}
++    )
++
++
++    if( LIBOKTETA1_NORMAL_INCLUDE_DIR AND LIBOKTETA1_CAMELCASE_INCLUDE_DIR AND
++        LIBOKTETACORE1_LIBRARY AND LIBOKTETAGUI1_LIBRARY )
++        set( LIBOKTETA_FOUND TRUE )
++    endif( LIBOKTETA1_NORMAL_INCLUDE_DIR AND LIBOKTETA1_CAMELCASE_INCLUDE_DIR AND
++        LIBOKTETACORE1_LIBRARY AND LIBOKTETAGUI1_LIBRARY )
++
++    if( LIBOKTETA_FOUND )
++        set( LIBOKTETA_VERSION 1 )
++        set( LIBOKTETA_INCLUDE_DIRS
++            ${LIBOKTETA1_NORMAL_INCLUDE_DIR}
++            ${LIBOKTETA1_CAMELCASE_INCLUDE_DIR}
++        )
++        set( LIBOKTETA_LIBRARIES
++            ${LIBOKTETACORE1_LIBRARY}
++            ${LIBOKTETAGUI1_LIBRARY}
++        )
++    endif( LIBOKTETA_FOUND )
++
++endif( LIBOKTETA_FIND_VERSION EQUAL 1 )
++
++if( LIBOKTETA_FIND_VERSION EQUAL 0 )
++    find_library( LIBOKTETACORE0_LIBRARY
++        NAMES
++        oktetacore
++        HINTS
++        ${LIB_INSTALL_DIR}
++        ${KDE4_LIB_DIR}
++    )
++
++    find_library( LIBOKTETAGUI0_LIBRARY
++        NAMES
++        oktetagui
++        HINTS
++        ${LIB_INSTALL_DIR}
++        ${KDE4_LIB_DIR}
++    )
++
++    find_path( LIBOKTETA0_NORMAL_INCLUDE_DIR
++        NAMES
++        abstractbytearraymodel.h
++        PATH_SUFFIXES
++        okteta
++        HINTS
++        ${INCLUDE_INSTALL_DIR}
++        ${KDE4_INCLUDE_DIR}
++    )
++
++    find_path( LIBOKTETA0_CAMELCASE_INCLUDE_DIR
++        NAMES
++        Okteta/AbstractByteArrayModel
++        PATH_SUFFIXES
++        KDE
++        HINTS
++        ${INCLUDE_INSTALL_DIR}
++        ${KDE4_INCLUDE_DIR}
++    )
++
++
++    if( LIBOKTETA0_NORMAL_INCLUDE_DIR AND LIBOKTETA0_CAMELCASE_INCLUDE_DIR AND
++        LIBOKTETACORE0_LIBRARY AND LIBOKTETAGUI0_LIBRARY )
++        set( LIBOKTETA_FOUND TRUE )
++    endif( LIBOKTETA0_NORMAL_INCLUDE_DIR AND LIBOKTETA0_CAMELCASE_INCLUDE_DIR AND
++           LIBOKTETACORE0_LIBRARY AND LIBOKTETAGUI0_LIBRARY )
++
++    if( LIBOKTETA_FOUND )
++        set( LIBOKTETA_VERSION 0 )
++        set( LIBOKTETA_INCLUDE_DIRS
++            ${LIBOKTETA0_NORMAL_INCLUDE_DIR}
++            ${LIBOKTETA0_CAMELCASE_INCLUDE_DIR}
++        )
++        set( LIBOKTETA_LIBRARIES
++            ${LIBOKTETACORE0_LIBRARY}
++            ${LIBOKTETAGUI0_LIBRARY}
++        )
++    endif( LIBOKTETA_FOUND )
++endif( LIBOKTETA_FIND_VERSION EQUAL 0 )
+ 
+ 
+ if( LIBOKTETA_FOUND )
+-   if( NOT Okteta_FIND_QUIETLY )
+-      message( STATUS "Found Okteta libraries: ${LIBOKTETA_LIBRARIES}" )
+-   endif( NOT Okteta_FIND_QUIETLY )
++    if( NOT Okteta_FIND_QUIETLY )
++        message( STATUS "Found Okteta libraries v${LIBOKTETA_VERSION}: ${LIBOKTETA_LIBRARIES}" )
++    endif( NOT Okteta_FIND_QUIETLY )
+ else( LIBOKTETA_FOUND )
+-   if( LibOkteta_FIND_REQUIRED )
+-      message( FATAL_ERROR "Could not find Okteta libraries" )
+-   endif( LibOkteta_FIND_REQUIRED )
++    if( LibOkteta_FIND_REQUIRED )
++        message( FATAL_ERROR "Could not find Okteta libraries" )
++    endif( LibOkteta_FIND_REQUIRED )
+ endif( LIBOKTETA_FOUND )
+ 
+-mark_as_advanced( LIBOKTETA_INCLUDE_DIR LIBOKTETA_LIBRARIES )
++mark_as_advanced(
++    LIBOKTETA_INCLUDE_DIRS
++    LIBOKTETA_LIBRARIES
++    LIBOKTETA_VERSION
++)
+diff -Nur kdevelop-4.2.3/cmake/modules/FindLibOktetaKasten.cmake kdevelop-4.2.3-okteta08/cmake/modules/FindLibOktetaKasten.cmake
+--- kdevelop-4.2.3/cmake/modules/FindLibOktetaKasten.cmake	2011-06-24 21:04:01.000000000 +0200
++++ kdevelop-4.2.3-okteta08/cmake/modules/FindLibOktetaKasten.cmake	2011-12-24 01:04:52.000000000 +0100
+@@ -1,73 +1,141 @@
+-# - Find Kasten library
++# - Find Okteta Kasten libraries, v0 or v1
+ #
+ # This module defines
+-#  LIBOKTETAKASTEN_FOUND - whether the libkasten libraries were found
+-#  LIBOKTETAKASTEN_LIBRARIES - the libkasten libraries
+-#  LIBOKTETAKASTEN_INCLUDE_DIR - the include path of the libkasten libraries
++#  LIBOKTETAKASTEN_FOUND - whether the Okteta Kasten libraries were found
++#  LIBOKTETAKASTEN_VERSION - version of the Okteta Kasten libraries found
++#  LIBOKTETAKASTEN_LIBRARIES - the Okteta Kasten libraries
++#  LIBOKTETAKASTEN_INCLUDE_DIRS - the include paths of the Okteta Kasten libraries
+ 
+ 
+-if( LIBOKTETAKASTEN_INCLUDE_DIR AND LIBOKTETAKASTEN_LIBRARIES )
++if( LIBOKTETAKASTEN_INCLUDE_DIRS AND LIBOKTETAKASTEN_LIBRARIES AND LIBOKTETAKASTEN_VERSION )
+     # Already in cache, be silent
+     set( OktetaKasten_FIND_QUIETLY TRUE )
+-endif( LIBOKTETAKASTEN_INCLUDE_DIR AND LIBOKTETAKASTEN_LIBRARIES )
++endif( LIBOKTETAKASTEN_INCLUDE_DIRS AND LIBOKTETAKASTEN_LIBRARIES AND LIBOKTETAKASTEN_VERSION )
+ 
+ 
+-find_library( LIBOKTETAKASTENCORE_LIBRARY
+-  NAMES
+-  oktetakastencore
+-  HINTS
+-  ${LIB_INSTALL_DIR}
+-  ${KDE4_LIB_DIR}
++# First search version 1
++find_library( LIBOKTETA1KASTEN1CORE_LIBRARY
++    NAMES
++    kasten1okteta1core
++    HINTS
++    ${LIB_INSTALL_DIR}
++    ${KDE4_LIB_DIR}
+ )
+ 
+-find_library( LIBOKTETAKASTENGUI_LIBRARY
+-  NAMES
+-  oktetakastengui
+-  HINTS
+-  ${LIB_INSTALL_DIR}
+-  ${KDE4_LIB_DIR}
++find_library( LIBOKTETA1KASTEN1GUI_LIBRARY
++    NAMES
++    kasten1okteta1gui
++    HINTS
++    ${LIB_INSTALL_DIR}
++    ${KDE4_LIB_DIR}
+ )
+ 
+-find_library( LIBOKTETAKASTENCONTROLLERS_LIBRARY
+-  NAMES
+-  oktetakastencontrollers
+-  HINTS
+-  ${LIB_INSTALL_DIR}
+-  ${KDE4_LIB_DIR}
+-)
+-
+-set( LIBOKTETAKASTEN_LIBRARIES
+-  ${LIBOKTETAKASTENCORE_LIBRARY}
+-  ${LIBOKTETAKASTENGUI_LIBRARY}
+-  ${LIBOKTETAKASTENCONTROLLERS_LIBRARY}
++find_library( LIBOKTETA1KASTEN1CONTROLLERS_LIBRARY
++    NAMES
++    kasten1okteta1controllers
++    HINTS
++    ${LIB_INSTALL_DIR}
++    ${KDE4_LIB_DIR}
+ )
+ 
+ 
+ find_path( LIBOKTETAKASTEN_INCLUDE_DIR
+-  NAMES
+-  bytearraydocument.h
+-  PATH_SUFFIXES
+-  kasten
+-  HINTS
+-  ${INCLUDE_INSTALL_DIR}
+-  ${KDE4_INCLUDE_DIR}
++    NAMES
++    bytearraydocument.h
++    PATH_SUFFIXES
++    kasten1/okteta1
++    HINTS
++    ${INCLUDE_INSTALL_DIR}
++    ${KDE4_INCLUDE_DIR}
+ )
+ 
+-if( LIBOKTETAKASTEN_INCLUDE_DIR AND LIBOKTETAKASTEN_LIBRARIES )
+-   set( LIBOKTETAKASTEN_FOUND  TRUE )
+-else( LIBOKTETAKASTEN_INCLUDE_DIR AND LIBOKTETAKASTEN_LIBRARIES )
+-   set( LIBOKTETAKASTEN_FOUND  FALSE )
+-endif( LIBOKTETAKASTEN_INCLUDE_DIR AND LIBOKTETAKASTEN_LIBRARIES )
++if( LIBOKTETAKASTEN_INCLUDE_DIR AND
++    LIBOKTETA1KASTEN1CORE_LIBRARY AND LIBOKTETA1KASTEN1GUI_LIBRARY AND LIBOKTETA1KASTEN1CONTROLLERS_LIBRARY )
++    set( LIBOKTETAKASTEN_FOUND  TRUE )
++endif( LIBOKTETAKASTEN_INCLUDE_DIR AND
++    LIBOKTETA1KASTEN1CORE_LIBRARY AND LIBOKTETA1KASTEN1GUI_LIBRARY AND LIBOKTETA1KASTEN1CONTROLLERS_LIBRARY )
++
++if( LIBOKTETAKASTEN_FOUND )
++    set( LIBOKTETAKASTEN_VERSION 1 )
++    set( LIBOKTETAKASTEN_LIBRARIES
++        ${LIBOKTETA1KASTEN1CORE_LIBRARY}
++        ${LIBOKTETA1KASTEN1GUI_LIBRARY}
++        ${LIBOKTETA1KASTEN1CONTROLLERS_LIBRARY}
++    )
++    set( LIBOKTETAKASTEN_INCLUDE_DIRS
++        ${LIBOKTETAKASTEN_INCLUDE_DIR}
++    )
++endif( LIBOKTETAKASTEN_FOUND )
++
++# Then search version 0
++if( NOT LIBOKTETAKASTEN_FOUND )
++    find_library( LIBOKTETAKASTENCORE0_LIBRARY
++        NAMES
++        oktetakastencore
++        HINTS
++        ${LIB_INSTALL_DIR}
++        ${KDE4_LIB_DIR}
++    )
++
++    find_library( LIBOKTETAKASTENGUI0_LIBRARY
++        NAMES
++        oktetakastengui
++        HINTS
++        ${LIB_INSTALL_DIR}
++        ${KDE4_LIB_DIR}
++    )
++
++    find_library( LIBOKTETAKASTENCONTROLLERS0_LIBRARY
++        NAMES
++        oktetakastencontrollers
++        HINTS
++        ${LIB_INSTALL_DIR}
++        ${KDE4_LIB_DIR}
++    )
++
++
++    find_path( LIBOKTETAKASTEN0_INCLUDE_DIR
++        NAMES
++        bytearraydocument.h
++        PATH_SUFFIXES
++        kasten
++        HINTS
++        ${INCLUDE_INSTALL_DIR}
++        ${KDE4_INCLUDE_DIR}
++    )
++
++    if( LIBOKTETAKASTEN0_INCLUDE_DIR AND
++        LIBOKTETAKASTENCORE0_LIBRARY AND LIBOKTETAKASTENGUI0_LIBRARY AND LIBOKTETAKASTENCONTROLLERS0_LIBRARY )
++        set( LIBOKTETAKASTEN_FOUND  TRUE )
++    endif( LIBOKTETAKASTEN0_INCLUDE_DIR AND
++        LIBOKTETAKASTENCORE0_LIBRARY AND LIBOKTETAKASTENGUI0_LIBRARY AND LIBOKTETAKASTENCONTROLLERS0_LIBRARY )
++
++    if( LIBOKTETAKASTEN_FOUND )
++        set( LIBOKTETAKASTEN_VERSION 0 )
++        set( LIBOKTETAKASTEN_INCLUDE_DIRS
++            ${LIBOKTETAKASTEN_INCLUDE_DIR}
++        )
++        set( LIBOKTETAKASTEN_LIBRARIES
++            ${LIBOKTETAKASTENCORE0_LIBRARY}
++            ${LIBOKTETAKASTENGUI0_LIBRARY}
++            ${LIBOKTETAKASTENCONTROLLERS0_LIBRARY}
++        )
++    endif( LIBOKTETAKASTEN_FOUND )
++endif( NOT LIBOKTETAKASTEN_FOUND )
+ 
+ 
+ if( LIBOKTETAKASTEN_FOUND )
+-   if( NOT OktetaKasten_FIND_QUIETLY )
+-      message( STATUS "Found Okteta Kasten libraries: ${LIBOKTETAKASTEN_LIBRARIES}" )
+-   endif( NOT OktetaKasten_FIND_QUIETLY )
++    if( NOT OktetaKasten_FIND_QUIETLY )
++        message( STATUS "Found Okteta Kasten libraries v${LIBOKTETAKASTEN_VERSION}: ${LIBOKTETAKASTEN_LIBRARIES}" )
++    endif( NOT OktetaKasten_FIND_QUIETLY )
+ else( LIBOKTETAKASTEN_FOUND )
+-   if( LibKasten_FIND_REQUIRED )
+-      message( FATAL_ERROR "Could not find Okteta Kasten libraries" )
+-   endif( LibKasten_FIND_REQUIRED )
++    if( LibKasten_FIND_REQUIRED )
++        message( FATAL_ERROR "Could not find Okteta Kasten libraries" )
++    endif( LibKasten_FIND_REQUIRED )
+ endif( LIBOKTETAKASTEN_FOUND )
+ 
+-mark_as_advanced( LIBOKTETAKASTEN_INCLUDE_DIR LIBOKTETAKASTEN_LIBRARIES )
++mark_as_advanced(
++    LIBOKTETAKASTEN_INCLUDE_DIRS
++    LIBOKTETAKASTEN_LIBRARIES
++    LIBOKTETAKASTEN_VERSION
++)
+diff -Nur kdevelop-4.2.3/utils/CMakeLists.txt kdevelop-4.2.3-okteta08/utils/CMakeLists.txt
+--- kdevelop-4.2.3/utils/CMakeLists.txt	2011-06-24 21:04:01.000000000 +0200
++++ kdevelop-4.2.3-okteta08/utils/CMakeLists.txt	2011-12-24 01:08:44.000000000 +0100
+@@ -1,20 +1,27 @@
+ macro_optional_find_package( LibOktetaKasten )
+-macro_optional_find_package( LibOkteta )
+-macro_optional_find_package( LibKasten )
+ 
+ macro_log_feature( LIBOKTETAKASTEN_FOUND
+-  "liboktetakasten" "Okteta Kasten libraries" "kdeutils/okteta/kasten" FALSE
++  "liboktetakasten" "Okteta Kasten libraries" "kdesdk/okteta/kasten" FALSE
+   "" "Required for building Okteta KDevelop plugin."
+ )
++
++if( LIBOKTETAKASTEN_FOUND )
++set( LIBOKTETA_FIND_VERSION ${LIBOKTETAKASTEN_VERSION} )
++set( LIBKASTEN_FIND_VERSION ${LIBOKTETAKASTEN_VERSION} )
++macro_optional_find_package( LibOkteta )
++macro_optional_find_package( LibKasten )
++
+ macro_log_feature( LIBOKTETA_FOUND
+-  "libokteta" "Okteta libraries" "kdeutils/okteta" FALSE
++  "libokteta v${LIBOKTETA_FIND_VERSION}" "Okteta libraries" "kdesdk/okteta" FALSE
+   "" "Required for building Okteta KDevelop plugin."
+ )
+ macro_log_feature( LIBKASTEN_FOUND
+-  "libkasten" "Kasten libraries" "kdeutils/okteta/libs" FALSE
++  "libkasten v${LIBKASTEN_FIND_VERSION}" "Kasten libraries" "kdesk/okteta/libs" FALSE
+   "" "Required for building Okteta KDevelop plugin."
+ )
++endif( LIBOKTETAKASTEN_FOUND )
++
+ 
+-if( LIBOKTETA_FOUND AND LIBOKTETAKASTEN_FOUND AND LIBKASTEN_FOUND AND KDE_VERSION VERSION_GREATER 4.4.50)
++if( LIBOKTETAKASTEN_FOUND AND LIBKASTEN_FOUND AND LIBOKTETA_FOUND )
+     add_subdirectory(okteta)
+-endif( LIBOKTETA_FOUND AND LIBOKTETAKASTEN_FOUND AND LIBKASTEN_FOUND AND KDE_VERSION VERSION_GREATER 4.4.50)
++endif( LIBOKTETAKASTEN_FOUND AND LIBKASTEN_FOUND AND LIBOKTETA_FOUND )
+diff -Nur kdevelop-4.2.3/utils/okteta/CMakeLists.txt kdevelop-4.2.3-okteta08/utils/okteta/CMakeLists.txt
+--- kdevelop-4.2.3/utils/okteta/CMakeLists.txt	2011-06-24 21:04:01.000000000 +0200
++++ kdevelop-4.2.3-okteta08/utils/okteta/CMakeLists.txt	2011-12-24 01:13:02.000000000 +0100
+@@ -3,11 +3,14 @@
+ 
+ include_directories( ${okteta_SOURCE_DIR} ${okteta_BINARY_DIR} )
+ 
+-# add_definitions( -DKDE_DEFAULT_DEBUG_AREA=9038 )
++add_definitions(
++    -DKASTEN_VERSION=${LIBKASTEN_VERSION}
++)
+ 
+ include_directories(
+-  ${LIBKASTEN_INCLUDE_DIR}
+-  ${LIBOKTETA_INCLUDE_DIR}
++  ${LIBKASTEN_INCLUDE_DIRS}
++  ${LIBOKTETA_INCLUDE_DIRS}
++  ${LIBOKTETAKASTEN_INCLUDE_DIRS}
+ )
+ SET( kdevokteta_PART_SRCS
+     kastentoolviewwidget.cpp
+diff -Nur kdevelop-4.2.3/utils/okteta/kastentoolviewwidget.cpp kdevelop-4.2.3-okteta08/utils/okteta/kastentoolviewwidget.cpp
+--- kdevelop-4.2.3/utils/okteta/kastentoolviewwidget.cpp	2011-06-24 21:04:01.000000000 +0200
++++ kdevelop-4.2.3-okteta08/utils/okteta/kastentoolviewwidget.cpp	2011-12-24 01:04:52.000000000 +0100
+@@ -25,10 +25,15 @@
+ // plugin
+ #include "oktetaview.h"
+ // Okteta Kasten
+-#include <kasten/bytearrayview.h>
++#include <bytearrayview.h>
+ // Kasten
++#if KASTEN_VERSION == 1
++#include <Kasten1/AbstractToolView>
++#include <Kasten1/AbstractTool>
++#else
+ #include <Kasten/AbstractToolView>
+ #include <Kasten/AbstractTool>
++#endif
+ // KDev
+ #include <interfaces/icore.h>
+ #include <interfaces/iuicontroller.h>
+diff -Nur kdevelop-4.2.3/utils/okteta/kastentoolviewwidget.h kdevelop-4.2.3-okteta08/utils/okteta/kastentoolviewwidget.h
+--- kdevelop-4.2.3/utils/okteta/kastentoolviewwidget.h	2011-06-24 21:04:01.000000000 +0200
++++ kdevelop-4.2.3-okteta08/utils/okteta/kastentoolviewwidget.h	2011-12-24 01:04:52.000000000 +0100
+@@ -23,10 +23,12 @@
+ #ifndef KASTENTOOLVIEWWIDGET_H
+ #define KASTENTOOLVIEWWIDGET_H
+ 
++// Plugin
++#include "oktetaglobal.h"
+ // Qt
+ #include <QtGui/QWidget>
+ 
+-namespace Kasten {
++namespace KASTEN_NAMESPACE {
+ class AbstractToolView;
+ }
+ namespace Sublime {
+diff -Nur kdevelop-4.2.3/utils/okteta/oktetadocument.cpp kdevelop-4.2.3-okteta08/utils/okteta/oktetadocument.cpp
+--- kdevelop-4.2.3/utils/okteta/oktetadocument.cpp	2011-06-24 21:04:01.000000000 +0200
++++ kdevelop-4.2.3-okteta08/utils/okteta/oktetadocument.cpp	2011-12-24 01:04:52.000000000 +0100
+@@ -1,7 +1,7 @@
+ /*
+     This file is part of the KDevelop Okteta module, part of the KDE project.
+ 
+-    Copyright 2010 Friedrich W. H. Kossebau <kossebau@kde.org>
++    Copyright 2010-2011 Friedrich W. H. Kossebau <kossebau@kde.org>
+ 
+     This library is free software; you can redistribute it and/or
+     modify it under the terms of the GNU Lesser General Public
+@@ -25,14 +25,27 @@
+ // plugin
+ #include "oktetaview.h"
+ // Okteta
++#if KASTEN_VERSION == 1
++#include <kasten1/okteta1/bytearrayrawfilesynchronizerfactory.h>
++#include <kasten1/okteta1/bytearraydocument.h>
++#else
+ #include <kasten/bytearrayrawfilesynchronizerfactory.h>
+ #include <kasten/bytearraydocument.h>
++#endif
+ // Kasten
++#if KASTEN_VERSION == 1
++#include <Kasten1/JobManager>
++#include <Kasten1/AbstractLoadJob>
++#include <Kasten1/AbstractSyncToRemoteJob>
++#include <Kasten1/AbstractSyncFromRemoteJob>
++#include <Kasten1/AbstractModelSynchronizer>
++#else
+ #include <Kasten/JobManager>
+ #include <Kasten/AbstractLoadJob>
+ #include <Kasten/AbstractSyncToRemoteJob>
+ #include <Kasten/AbstractSyncFromRemoteJob>
+ #include <Kasten/AbstractModelSynchronizer>
++#endif
+ // KDevelop
+ #include <shell/core.h>
+ #include <shell/uicontroller.h>
+@@ -91,7 +104,12 @@
+     Kasten::AbstractModelSynchronizer* synchronizer = mByteArrayDocument->synchronizer();
+ 
+     Kasten::AbstractSyncToRemoteJob* syncJob = synchronizer->startSyncToRemote();
+-    const bool syncSucceeded = Kasten::JobManager::executeJob( syncJob, qApp->activeWindow() );
++    const bool syncSucceeded =
++#if KASTEN_VERSION == 1
++        Kasten::JobManager::executeJob( syncJob );
++#else
++        Kasten::JobManager::executeJob( syncJob, qApp->activeWindow() );
++#endif
+ 
+     if( syncSucceeded )
+     {
+@@ -108,7 +126,12 @@
+     Kasten::AbstractModelSynchronizer* synchronizer = mByteArrayDocument->synchronizer();
+ 
+     Kasten::AbstractSyncFromRemoteJob* syncJob = synchronizer->startSyncFromRemote();
+-    const bool syncSucceeded = Kasten::JobManager::executeJob( syncJob, qApp->activeWindow() );
++    const bool syncSucceeded =
++#if KASTEN_VERSION == 1
++        Kasten::JobManager::executeJob( syncJob );
++#else
++        Kasten::JobManager::executeJob( syncJob, qApp->activeWindow() );
++#endif
+ 
+     if( syncSucceeded )
+         notifyStateChanged();
+@@ -207,9 +230,19 @@
+         Kasten::AbstractModelSynchronizer* synchronizer = synchronizerFactory->createSynchronizer();
+ 
+         Kasten::AbstractLoadJob* loadJob = synchronizer->startLoad( url() );
+-        connect( loadJob, SIGNAL(documentLoaded( Kasten::AbstractDocument* )),
+-                 SLOT(onByteArrayDocumentLoaded( Kasten::AbstractDocument* )) );
++#if KASTEN_VERSION == 1
++        connect( loadJob, SIGNAL(documentLoaded(Kasten1::AbstractDocument*)),
++                 SLOT(onByteArrayDocumentLoaded(Kasten1::AbstractDocument*)) );
++#else
++        connect( loadJob, SIGNAL(documentLoaded(Kasten::AbstractDocument*)),
++                 SLOT(onByteArrayDocumentLoaded(Kasten::AbstractDocument*)) );
++#endif
++    const bool syncSucceeded =
++#if KASTEN_VERSION == 1
++        Kasten::JobManager::executeJob( loadJob );
++#else
+         Kasten::JobManager::executeJob( loadJob, qApp->activeWindow() );
++#endif
+ 
+         delete synchronizerFactory;
+     }
+@@ -227,7 +260,11 @@
+     if( document )
+     {
+         mByteArrayDocument = static_cast<Kasten::ByteArrayDocument*>( document );
+-        connect( mByteArrayDocument, SIGNAL(localSyncStateChanged( Kasten::LocalSyncState )),
++#if KASTEN_VERSION == 1
++        connect( mByteArrayDocument, SIGNAL(localSyncStateChanged(Kasten1::LocalSyncState)),
++#else
++        connect( mByteArrayDocument, SIGNAL(localSyncStateChanged(Kasten::LocalSyncState)),
++#endif
+                  SLOT(onByteArrayDocumentChanged()) );
+     }
+ }
+diff -Nur kdevelop-4.2.3/utils/okteta/oktetadocument.h kdevelop-4.2.3-okteta08/utils/okteta/oktetadocument.h
+--- kdevelop-4.2.3/utils/okteta/oktetadocument.h	2011-06-24 21:04:01.000000000 +0200
++++ kdevelop-4.2.3-okteta08/utils/okteta/oktetadocument.h	2011-12-24 01:04:52.000000000 +0100
+@@ -23,15 +23,17 @@
+ #ifndef OKTETADOCUMENT_H
+ #define OKTETADOCUMENT_H
+ 
++// Plugin
++#include "oktetaglobal.h"
+ // Kasten core
+-#include <kasten/kastencore.h>
++#include <kastencore.h>
+ // KDevPlatform
+ #include <sublime/urldocument.h>
+ #include <interfaces/idocument.h>
+ //Qt
+ #include <QtCore/QList>
+ 
+-namespace Kasten {
++namespace KASTEN_NAMESPACE {
+ class ByteArrayDocument;
+ class AbstractDocument;
+ }
+@@ -82,7 +84,12 @@
+ 
+   protected Q_SLOTS:
+     void onByteArrayDocumentChanged();
++    // Moc is too primitive to know about namespace aliase
++#if KASTEN_VERSION == 1
++    void onByteArrayDocumentLoaded( Kasten1::AbstractDocument* document );
++#else
+     void onByteArrayDocumentLoaded( Kasten::AbstractDocument* document );
++#endif
+ 
+   private:
+     OktetaPlugin* mPlugin;
+diff -Nur kdevelop-4.2.3/utils/okteta/oktetaglobal.h kdevelop-4.2.3-okteta08/utils/okteta/oktetaglobal.h
+--- kdevelop-4.2.3/utils/okteta/oktetaglobal.h	1970-01-01 01:00:00.000000000 +0100
++++ kdevelop-4.2.3-okteta08/utils/okteta/oktetaglobal.h	2011-12-24 01:04:52.000000000 +0100
+@@ -0,0 +1,35 @@
++/*
++    This file is part of the KDevelop Okteta module, part of the KDE project.
++
++    Copyright 2011 Friedrich W. H. Kossebau <kossebau@kde.org>
++
++    This library is free software; you can redistribute it and/or
++    modify it under the terms of the GNU Lesser General Public
++    License as published by the Free Software Foundation; either
++    version 2.1 of the License, or (at your option) version 3, or any
++    later version accepted by the membership of KDE e.V. (or its
++    successor approved by the membership of KDE e.V.), which shall
++    act as a proxy defined in Section 6 of version 3 of the license.
++
++    This library is distributed in the hope that it will be useful,
++    but WITHOUT ANY WARRANTY; without even the implied warranty of
++    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++    Lesser General Public License for more details.
++
++    You should have received a copy of the GNU Lesser General Public
++    License along with this library. If not, see <http://www.gnu.org/licenses/>.
++*/
++
++#ifndef OKTETAGLOBAL_H
++#define OKTETAGLOBAL_H
++
++// Adaptions for the different version of Kasten and Okteta
++#if KASTEN_VERSION == 1
++namespace Kasten1 {}
++namespace Kasten = Kasten1;
++#define KASTEN_NAMESPACE Kasten1
++#else
++#define KASTEN_NAMESPACE Kasten
++#endif
++
++#endif
+diff -Nur kdevelop-4.2.3/utils/okteta/oktetatoolviewfactory.cpp kdevelop-4.2.3-okteta08/utils/okteta/oktetatoolviewfactory.cpp
+--- kdevelop-4.2.3/utils/okteta/oktetatoolviewfactory.cpp	2011-06-24 21:04:01.000000000 +0200
++++ kdevelop-4.2.3-okteta08/utils/okteta/oktetatoolviewfactory.cpp	2011-12-24 01:04:52.000000000 +0100
+@@ -25,9 +25,15 @@
+ // plugin
+ #include "kastentoolviewwidget.h"
+ // Kasten
++#if KASTEN_VERSION == 1
++#include <Kasten1/AbstractToolViewFactory>
++#include <Kasten1/AbstractToolFactory>
++#include <Kasten1/AbstractToolView>
++#else
+ #include <Kasten/AbstractToolViewFactory>
+ #include <Kasten/AbstractToolFactory>
+ #include <Kasten/AbstractToolView>
++#endif
+ // KDE
+ #include <KIcon>
+ 
+diff -Nur kdevelop-4.2.3/utils/okteta/oktetatoolviewfactory.h kdevelop-4.2.3-okteta08/utils/okteta/oktetatoolviewfactory.h
+--- kdevelop-4.2.3/utils/okteta/oktetatoolviewfactory.h	2011-06-24 21:04:01.000000000 +0200
++++ kdevelop-4.2.3-okteta08/utils/okteta/oktetatoolviewfactory.h	2011-12-24 01:04:52.000000000 +0100
+@@ -23,10 +23,12 @@
+ #ifndef OKTETATOOLVIEWFACTORY_H
+ #define OKTETATOOLVIEWFACTORY_H
+ 
++// Plugin
++#include "oktetaglobal.h"
+ // KDev
+ #include <interfaces/iuicontroller.h>
+ 
+-namespace Kasten {
++namespace KASTEN_NAMESPACE {
+ class AbstractToolViewFactory;
+ class AbstractToolFactory;
+ }
+diff -Nur kdevelop-4.2.3/utils/okteta/oktetaview.h kdevelop-4.2.3-okteta08/utils/okteta/oktetaview.h
+--- kdevelop-4.2.3/utils/okteta/oktetaview.h	2011-06-24 21:04:01.000000000 +0200
++++ kdevelop-4.2.3-okteta08/utils/okteta/oktetaview.h	2011-12-24 01:04:52.000000000 +0100
+@@ -23,10 +23,12 @@
+ #ifndef OKTETAVIEW_H
+ #define OKTETAVIEW_H
+ 
++// Plugin
++#include "oktetaglobal.h"
+ // KDevPlatform
+ #include <sublime/view.h>
+ 
+-namespace Kasten {
++namespace KASTEN_NAMESPACE {
+ class ByteArrayView;
+ }
+ 
+diff -Nur kdevelop-4.2.3/utils/okteta/oktetawidget.h kdevelop-4.2.3-okteta08/utils/okteta/oktetawidget.h
+--- kdevelop-4.2.3/utils/okteta/oktetawidget.h	2011-06-24 21:04:01.000000000 +0200
++++ kdevelop-4.2.3-okteta08/utils/okteta/oktetawidget.h	2011-12-24 01:04:52.000000000 +0100
+@@ -23,12 +23,14 @@
+ #ifndef OKTETAWIDGET_H
+ #define OKTETAWIDGET_H
+ 
++// Plugin
++#include "oktetaglobal.h"
+ // KDE
+ #include <KXMLGUIClient>
+ // Qt
+ #include <QtGui/QWidget>
+ 
+-namespace Kasten {
++namespace KASTEN_NAMESPACE {
+ class ByteArrayView;
+ class AbstractXmlGuiController;
+ }

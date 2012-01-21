@@ -2,8 +2,8 @@
 # Conditional build:
 #
 %define		_state		stable
-%define		kdever		4.6.4
-%define		qtver		4.7.3
+%define		kdever		4.8.0
+%define		qtver		4.8.0
 %define		orgname		kdevelop
 %define		kdevplatform	1.2.3
 
@@ -14,11 +14,12 @@ Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
 Version:	4.2.3
-Release:	2
+Release:	3
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.bz2
 # Source0-md5:	8b6e59764612314e6776edb3386c0930
+Patch0:		%{name}-okteta.patch
 URL:		http://www.kdevelop.org/
 BuildRequires:	QtHelp-devel >= %{qtver}
 BuildRequires:	QtNetwork-devel >= %{qtver}
@@ -112,6 +113,7 @@ pisaniu własnych programów wykorzystujących kdevelop.
 
 %prep
 %setup -q -n %{orgname}-%{version}
+%patch0 -p1
 
 %build
 install -d build
@@ -158,7 +160,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevcustommakemanager.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgdb.so
 %attr(755,root,root) %{_libdir}/kde4/kdevindent.so
-#%attr(755,root,root) %{_libdir}/kde4/kdevokteta.so
+%attr(755,root,root) %{_libdir}/kde4/kdevokteta.so
 %attr(755,root,root) %{_libdir}/kde4/kdevmakebuilder.so
 %attr(755,root,root) %{_libdir}/kde4/kdevmanpage.so
 %attr(755,root,root) %{_libdir}/kde4/kdevqthelp.so
@@ -180,7 +182,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevgdb/printers/qt4.py
 %{_datadir}/apps/kdevgdb/printers/kde4.py
 %{_datadir}/apps/kdevgdb/printers/libstdcxx.py
-#%{_datadir}/apps/kdevokteta
+%{_datadir}/apps/kdevokteta
 %{_datadir}/config/kdeveloprc
 %dir %{_datadir}/apps/kdevcppsupport
 %{_datadir}/apps/kdevcppsupport/kdevcppsupport.rc
@@ -196,7 +198,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kdevindent.desktop
 %{_datadir}/kde4/services/kdevmakebuilder.desktop
 %{_datadir}/kde4/services/kdevmanpage.desktop
-#%{_datadir}/kde4/services/kdevokteta.desktop
+%{_datadir}/kde4/services/kdevokteta.desktop
 %{_datadir}/kde4/services/kdevqthelp.desktop
 %{_datadir}/kde4/services/kdevqthelp_config.desktop
 %{_datadir}/kde4/services/kdevkdeprovider.desktop
