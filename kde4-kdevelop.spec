@@ -158,7 +158,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevcustommakemanager.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgdb.so
 %attr(755,root,root) %{_libdir}/kde4/kdevindent.so
-%attr(755,root,root) %{_libdir}/kde4/kdevokteta.so
+#%attr(755,root,root) %{_libdir}/kde4/kdevokteta.so
 %attr(755,root,root) %{_libdir}/kde4/kdevmakebuilder.so
 %attr(755,root,root) %{_libdir}/kde4/kdevmanpage.so
 %attr(755,root,root) %{_libdir}/kde4/kdevqthelp.so
@@ -180,7 +180,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevgdb/printers/qt4.py
 %{_datadir}/apps/kdevgdb/printers/kde4.py
 %{_datadir}/apps/kdevgdb/printers/libstdcxx.py
-%{_datadir}/apps/kdevokteta
+#%{_datadir}/apps/kdevokteta
 %{_datadir}/config/kdeveloprc
 %dir %{_datadir}/apps/kdevcppsupport
 %{_datadir}/apps/kdevcppsupport/kdevcppsupport.rc
@@ -196,7 +196,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kdevindent.desktop
 %{_datadir}/kde4/services/kdevmakebuilder.desktop
 %{_datadir}/kde4/services/kdevmanpage.desktop
-%{_datadir}/kde4/services/kdevokteta.desktop
+#%{_datadir}/kde4/services/kdevokteta.desktop
 %{_datadir}/kde4/services/kdevqthelp.desktop
 %{_datadir}/kde4/services/kdevqthelp_config.desktop
 %{_datadir}/kde4/services/kdevkdeprovider.desktop
