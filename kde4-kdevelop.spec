@@ -14,12 +14,13 @@ Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
 Version:	4.2.3
-Release:	3
+Release:	4
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.bz2
 # Source0-md5:	8b6e59764612314e6776edb3386c0930
 Patch0:		%{name}-okteta.patch
+Patch1:		kdev-relative-include-paths.patch
 URL:		http://www.kdevelop.org/
 BuildRequires:	QtHelp-devel >= %{qtver}
 BuildRequires:	QtNetwork-devel >= %{qtver}
@@ -114,6 +115,7 @@ pisaniu własnych programów wykorzystujących kdevelop.
 %prep
 %setup -q -n %{orgname}-%{version}
 %patch0 -p1
+%patch1 -p1
 
 %build
 install -d build
