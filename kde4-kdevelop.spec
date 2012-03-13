@@ -5,7 +5,7 @@
 %define		kdever		4.8.0
 %define		qtver		4.8.0
 %define		orgname		kdevelop
-%define		kdevplatform	1.2.3
+%define		kdevplatform	1.3.0
 
 Summary:	KDE Integrated Development Environment
 Summary(de.UTF-8):	KDevelop ist eine grafische Entwicklungsumgebung für KDE
@@ -13,14 +13,12 @@ Summary(pl.UTF-8):	Zintegrowane środowisko programisty dla KDE
 Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
-Version:	4.2.3
-Release:	4
+Version:	4.3.0
+Release:	1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	8b6e59764612314e6776edb3386c0930
-Patch0:		%{name}-okteta.patch
-Patch1:		kdev-relative-include-paths.patch
+# Source0-md5:	24915ac7c0340d6848abd3ba6a355df6
 URL:		http://www.kdevelop.org/
 BuildRequires:	QtHelp-devel >= %{qtver}
 BuildRequires:	QtNetwork-devel >= %{qtver}
@@ -114,8 +112,6 @@ pisaniu własnych programów wykorzystujących kdevelop.
 
 %prep
 %setup -q -n %{orgname}-%{version}
-%patch0 -p1
-%patch1 -p1
 
 %build
 install -d build
@@ -134,7 +130,7 @@ install -d $RPM_BUILD_ROOT%{_desktopdir}
 
 install app/kdevelop.desktop $RPM_BUILD_ROOT%{_desktopdir}
 
-%find_lang %{orgname} --all-name
+%find_lang %{orgname} --all-name --with-kde
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -152,6 +148,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{orgname}.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/kdevelop
+%attr(755,root,root) %{_bindir}/kdevelop_attach
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_makebuilder.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdevcmake_settings.so
 %attr(755,root,root) %{_libdir}/kde4/kdevastyle.so
@@ -160,14 +157,15 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevcmakemanager.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcpplanguagesupport.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcustommakemanager.so
+%attr(755,root,root) %{_libdir}/kde4/kdevcustomscript.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgdb.so
-%attr(755,root,root) %{_libdir}/kde4/kdevindent.so
 %attr(755,root,root) %{_libdir}/kde4/kdevokteta.so
 %attr(755,root,root) %{_libdir}/kde4/kdevmakebuilder.so
 %attr(755,root,root) %{_libdir}/kde4/kdevmanpage.so
 %attr(755,root,root) %{_libdir}/kde4/kdevqthelp.so
 %attr(755,root,root) %{_libdir}/kde4/kdevqthelp_config.so
 %attr(755,root,root) %{_libdir}/kde4/kdevkdeprovider.so
+%attr(755,root,root) %{_libdir}/kde4/krunner_kdevelopsessions.so
 %attr(755,root,root) %{_libdir}/libkdev4cmakecommon.so
 %attr(755,root,root) %{_libdir}/libkdev4cppduchain.so
 %attr(755,root,root) %{_libdir}/libkdev4cppparser.so
@@ -194,19 +192,21 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kdevcmakebuilder.desktop
 %{_datadir}/kde4/services/kdevcmakedocumentation.desktop
 %{_datadir}/kde4/services/kdevcmakemanager.desktop
+%{_datadir}/kde4/services/kdevcustomscript.desktop
 %{_datadir}/kde4/services/kdevcppsupport.desktop
 %{_datadir}/kde4/services/kdevcustommakemanager.desktop
 %{_datadir}/kde4/services/kdevgdb.desktop
-%{_datadir}/kde4/services/kdevindent.desktop
 %{_datadir}/kde4/services/kdevmakebuilder.desktop
 %{_datadir}/kde4/services/kdevmanpage.desktop
 %{_datadir}/kde4/services/kdevokteta.desktop
 %{_datadir}/kde4/services/kdevqthelp.desktop
 %{_datadir}/kde4/services/kdevqthelp_config.desktop
+%{_datadir}/kde4/services/kdevelopsessions.desktop
 %{_datadir}/kde4/services/kdevkdeprovider.desktop
 %{_datadir}/mime/packages/kdevelop.xml
 %{_desktopdir}/kdevelop.desktop
 %{_desktopdir}/kde4/kdevelop.desktop
+%{_desktopdir}/kde4/kdevelop_ps.desktop
 %{_iconsdir}/*/*x*/*/*.png
 %{_includedir}/kdevelop
 
