@@ -1,0 +1,776 @@
+diff --git a/cmake/modules/FindLibKasten.cmake b/cmake/modules/FindLibKasten.cmake
+index 087eedc..9fafd87 100644
+--- a/cmake/modules/FindLibKasten.cmake
++++ b/cmake/modules/FindLibKasten.cmake
+@@ -1,4 +1,4 @@
+-# - Find Kasten libraries, v0 or v1
++# - Find Kasten libraries, v0, v1 or v2
+ #
+ # This module defines
+ #  LIBKASTEN_FOUND - whether the libkasten libraries were found
+@@ -12,44 +12,45 @@ if( LIBKASTEN_INCLUDE_DIR AND LIBKASTEN_LIBRARIES AND LIBKASTEN_VERSION )
+     set( Kasten_FIND_QUIETLY TRUE )
+ endif( LIBKASTEN_INCLUDE_DIR AND LIBKASTEN_LIBRARIES AND LIBKASTEN_VERSION )
+ 
+-if( LIBKASTEN_FIND_VERSION EQUAL 1 )
+-    find_library( KASTEN1_CORE_LIB
++if( LIBKASTEN_FIND_VERSION EQUAL 1 OR LIBKASTEN_FIND_VERSION EQUAL 2)
++    set( KV ${LIBKASTEN_FIND_VERSION} )
++    find_library( KASTEN1OR2_CORE_LIB
+         NAMES
+-        kasten1core
++        kasten${KV}core
+         HINTS
+         ${LIB_INSTALL_DIR}
+         ${KDE4_LIB_DIR}
+     )
+ 
+-    find_library( KASTEN1_GUI_LIB
++    find_library( KASTEN1OR2_GUI_LIB
+         NAMES
+-        kasten1gui
++        kasten${KV}gui
+         HINTS
+         ${LIB_INSTALL_DIR}
+         ${KDE4_LIB_DIR}
+     )
+ 
+-    find_library( KASTEN1_CONTROLLERS_LIB
++    find_library( KASTEN1OR2_CONTROLLERS_LIB
+         NAMES
+-        kasten1controllers
++        kasten${KV}controllers
+         HINTS
+         ${LIB_INSTALL_DIR}
+         ${KDE4_LIB_DIR}
+     )
+ 
+-    find_path( KASTEN1_NORMAL_INCLUDE_DIR
++    find_path( KASTEN1OR2_NORMAL_INCLUDE_DIR
+         NAMES
+         abstractmodel.h
+         PATH_SUFFIXES
+-        kasten1
++        kasten${KV}
+         HINTS
+         ${INCLUDE_INSTALL_DIR}
+         ${KDE4_INCLUDE_DIR}
+     )
+ 
+-    find_path( KASTEN1_CAMELCASE_INCLUDE_DIR
++    find_path( KASTEN1OR2_CAMELCASE_INCLUDE_DIR
+         NAMES
+-        Kasten1/AbstractModel
++        Kasten${KV}/AbstractModel
+         PATH_SUFFIXES
+         KDE
+         HINTS
+@@ -58,25 +59,25 @@ if( LIBKASTEN_FIND_VERSION EQUAL 1 )
+     )
+ 
+ 
+-    if( KASTEN1_NORMAL_INCLUDE_DIR AND KASTEN1_CAMELCASE_INCLUDE_DIR AND
+-        KASTEN1_CORE_LIB AND KASTEN1_GUI_LIB AND KASTEN1_CONTROLLERS_LIB )
++    if( KASTEN1OR2_NORMAL_INCLUDE_DIR AND KASTEN1OR2_CAMELCASE_INCLUDE_DIR AND
++        KASTEN1OR2_CORE_LIB AND KASTEN1OR2_GUI_LIB AND KASTEN1OR2_CONTROLLERS_LIB )
+         set( LIBKASTEN_FOUND TRUE )
+-    endif( KASTEN1_NORMAL_INCLUDE_DIR AND KASTEN1_CAMELCASE_INCLUDE_DIR AND
+-        KASTEN1_CORE_LIB AND KASTEN1_GUI_LIB AND KASTEN1_CONTROLLERS_LIB )
++    endif( KASTEN1OR2_NORMAL_INCLUDE_DIR AND KASTEN1OR2_CAMELCASE_INCLUDE_DIR AND
++        KASTEN1OR2_CORE_LIB AND KASTEN1OR2_GUI_LIB AND KASTEN1OR2_CONTROLLERS_LIB )
+ 
+     if( LIBKASTEN_FOUND )
+-        set( LIBKASTEN_VERSION 1 )
++        set( LIBKASTEN_VERSION ${KV} )
+         set( LIBKASTEN_INCLUDE_DIRS
+-            ${KASTEN1_NORMAL_INCLUDE_DIR}
+-            ${KASTEN1_CAMELCASE_INCLUDE_DIR}
++            ${KASTEN1OR2_NORMAL_INCLUDE_DIR}
++            ${KASTEN1OR2_CAMELCASE_INCLUDE_DIR}
+         )
+         set( LIBKASTEN_LIBRARIES
+-            ${KASTEN1_CORE_LIB}
+-            ${KASTEN1_GUI_LIB}
+-            ${KASTEN1_CONTROLLERS_LIB}
++            ${KASTEN1OR2_CORE_LIB}
++            ${KASTEN1OR2_GUI_LIB}
++            ${KASTEN1OR2_CONTROLLERS_LIB}
+         )
+     endif( LIBKASTEN_FOUND )
+-endif( LIBKASTEN_FIND_VERSION EQUAL 1 )
++endif( LIBKASTEN_FIND_VERSION EQUAL 1 OR LIBKASTEN_FIND_VERSION EQUAL 2 )
+ 
+ if( LIBKASTEN_FIND_VERSION EQUAL 0 )
+     find_library( LIBKASTENCORE0_LIBRARY
+diff --git a/cmake/modules/FindLibOktetaKasten.cmake b/cmake/modules/FindLibOktetaKasten.cmake
+index 973f0f1..0985914 100644
+--- a/cmake/modules/FindLibOktetaKasten.cmake
++++ b/cmake/modules/FindLibOktetaKasten.cmake
+@@ -1,4 +1,4 @@
+-# - Find Okteta Kasten libraries, v0 or v1
++# - Find Okteta Kasten libraries, v0, v1 or v2
+ #
+ # This module defines
+ #  LIBOKTETAKASTEN_FOUND - whether the Okteta Kasten libraries were found
+@@ -7,66 +7,128 @@
+ #  LIBOKTETAKASTEN_INCLUDE_DIRS - the include paths of the Okteta Kasten libraries
+ 
+ 
+-if( LIBOKTETAKASTEN_INCLUDE_DIRS AND LIBOKTETAKASTEN_LIBRARIES AND LIBOKTETAKASTEN_VERSION )
++if( LIBOKTETAKASTEN_INCLUDE_DIRS AND LIBOKTETAKASTEN_LIBRARIES AND LIBOKTETAKASTEN_VERSION AND
++    LIBOKTETAKASTEN_NEEDS_KASTEN_VERSION AND LIBOKTETAKASTEN_NEEDS_OKTETA_VERSION )
+     # Already in cache, be silent
+     set( OktetaKasten_FIND_QUIETLY TRUE )
+-endif( LIBOKTETAKASTEN_INCLUDE_DIRS AND LIBOKTETAKASTEN_LIBRARIES AND LIBOKTETAKASTEN_VERSION )
++endif( LIBOKTETAKASTEN_INCLUDE_DIRS AND LIBOKTETAKASTEN_LIBRARIES AND LIBOKTETAKASTEN_VERSION AND
++       LIBOKTETAKASTEN_NEEDS_KASTEN_VERSION AND LIBOKTETAKASTEN_NEEDS_OKTETA_VERSION )
+ 
+ 
+-# First search version 1
+-find_library( LIBOKTETA1KASTEN1CORE_LIBRARY
++# First search version 2
++find_library( LIBOKTETA1KASTEN2CORE_LIBRARY
+     NAMES
+-    kasten1okteta1core
++    kasten2okteta1core
+     HINTS
+     ${LIB_INSTALL_DIR}
+     ${KDE4_LIB_DIR}
+ )
+ 
+-find_library( LIBOKTETA1KASTEN1GUI_LIBRARY
++find_library( LIBOKTETA1KASTEN2GUI_LIBRARY
+     NAMES
+-    kasten1okteta1gui
++    kasten2okteta1gui
+     HINTS
+     ${LIB_INSTALL_DIR}
+     ${KDE4_LIB_DIR}
+ )
+ 
+-find_library( LIBOKTETA1KASTEN1CONTROLLERS_LIBRARY
++find_library( LIBOKTETA1KASTEN2CONTROLLERS_LIBRARY
+     NAMES
+-    kasten1okteta1controllers
++    kasten2okteta1controllers
+     HINTS
+     ${LIB_INSTALL_DIR}
+     ${KDE4_LIB_DIR}
+ )
+ 
+ 
+-find_path( LIBOKTETAKASTEN_INCLUDE_DIR
++find_path( LIBOKTETA1KASTEN2_INCLUDE_DIR
+     NAMES
+     bytearraydocument.h
+     PATH_SUFFIXES
+-    kasten1/okteta1
++    kasten2/okteta1
+     HINTS
+     ${INCLUDE_INSTALL_DIR}
+     ${KDE4_INCLUDE_DIR}
+ )
+ 
+-if( LIBOKTETAKASTEN_INCLUDE_DIR AND
+-    LIBOKTETA1KASTEN1CORE_LIBRARY AND LIBOKTETA1KASTEN1GUI_LIBRARY AND LIBOKTETA1KASTEN1CONTROLLERS_LIBRARY )
++if( LIBOKTETA1KASTEN2_INCLUDE_DIR AND
++    LIBOKTETA1KASTEN2CORE_LIBRARY AND LIBOKTETA1KASTEN2GUI_LIBRARY AND LIBOKTETA1KASTEN2CONTROLLERS_LIBRARY )
+     set( LIBOKTETAKASTEN_FOUND  TRUE )
+-endif( LIBOKTETAKASTEN_INCLUDE_DIR AND
+-    LIBOKTETA1KASTEN1CORE_LIBRARY AND LIBOKTETA1KASTEN1GUI_LIBRARY AND LIBOKTETA1KASTEN1CONTROLLERS_LIBRARY )
++endif( LIBOKTETA1KASTEN2_INCLUDE_DIR AND
++    LIBOKTETA1KASTEN2CORE_LIBRARY AND LIBOKTETA1KASTEN2GUI_LIBRARY AND LIBOKTETA1KASTEN2CONTROLLERS_LIBRARY )
+ 
+ if( LIBOKTETAKASTEN_FOUND )
+-    set( LIBOKTETAKASTEN_VERSION 1 )
++    set( LIBOKTETAKASTEN_VERSION 2 )
++    set( LIBOKTETAKASTEN_NEEDS_KASTEN_VERSION 2 )
++    set( LIBOKTETAKASTEN_NEEDS_OKTETA_VERSION 1 )
+     set( LIBOKTETAKASTEN_LIBRARIES
+-        ${LIBOKTETA1KASTEN1CORE_LIBRARY}
+-        ${LIBOKTETA1KASTEN1GUI_LIBRARY}
+-        ${LIBOKTETA1KASTEN1CONTROLLERS_LIBRARY}
++        ${LIBOKTETA1KASTEN2CORE_LIBRARY}
++        ${LIBOKTETA1KASTEN2GUI_LIBRARY}
++        ${LIBOKTETA1KASTEN2CONTROLLERS_LIBRARY}
+     )
+     set( LIBOKTETAKASTEN_INCLUDE_DIRS
+-        ${LIBOKTETAKASTEN_INCLUDE_DIR}
++        ${LIBOKTETA1KASTEN2_INCLUDE_DIR}
+     )
+ endif( LIBOKTETAKASTEN_FOUND )
+ 
++# Then search version 1
++if( NOT LIBOKTETAKASTEN_FOUND )
++    find_library( LIBOKTETA1KASTEN1CORE_LIBRARY
++        NAMES
++        kasten1okteta1core
++        HINTS
++        ${LIB_INSTALL_DIR}
++        ${KDE4_LIB_DIR}
++    )
++
++    find_library( LIBOKTETA1KASTEN1GUI_LIBRARY
++        NAMES
++        kasten1okteta1gui
++        HINTS
++        ${LIB_INSTALL_DIR}
++        ${KDE4_LIB_DIR}
++    )
++
++    find_library( LIBOKTETA1KASTEN1CONTROLLERS_LIBRARY
++        NAMES
++        kasten1okteta1controllers
++        HINTS
++        ${LIB_INSTALL_DIR}
++        ${KDE4_LIB_DIR}
++    )
++
++
++    find_path( LIBOKTETA1KASTEN1_INCLUDE_DIR
++        NAMES
++        bytearraydocument.h
++        PATH_SUFFIXES
++        kasten1/okteta1
++        HINTS
++        ${INCLUDE_INSTALL_DIR}
++        ${KDE4_INCLUDE_DIR}
++    )
++
++    if( LIBOKTETA1KASTEN1_INCLUDE_DIR AND
++        LIBOKTETA1KASTEN1CORE_LIBRARY AND LIBOKTETA1KASTEN1GUI_LIBRARY AND LIBOKTETA1KASTEN1CONTROLLERS_LIBRARY )
++        set( LIBOKTETAKASTEN_FOUND  TRUE )
++    endif( LIBOKTETA1KASTEN1_INCLUDE_DIR AND
++        LIBOKTETA1KASTEN1CORE_LIBRARY AND LIBOKTETA1KASTEN1GUI_LIBRARY AND LIBOKTETA1KASTEN1CONTROLLERS_LIBRARY )
++
++    if( LIBOKTETAKASTEN_FOUND )
++        set( LIBOKTETAKASTEN_VERSION 1 )
++        set( LIBOKTETAKASTEN_NEEDS_KASTEN_VERSION 1 )
++        set( LIBOKTETAKASTEN_NEEDS_OKTETA_VERSION 1 )
++        set( LIBOKTETAKASTEN_LIBRARIES
++            ${LIBOKTETA1KASTEN1CORE_LIBRARY}
++            ${LIBOKTETA1KASTEN1GUI_LIBRARY}
++            ${LIBOKTETA1KASTEN1CONTROLLERS_LIBRARY}
++        )
++        set( LIBOKTETAKASTEN_INCLUDE_DIRS
++            ${LIBOKTETA1KASTEN1_INCLUDE_DIR}
++        )
++    endif( LIBOKTETAKASTEN_FOUND )
++endif( NOT LIBOKTETAKASTEN_FOUND )
++
+ # Then search version 0
+ if( NOT LIBOKTETAKASTEN_FOUND )
+     find_library( LIBOKTETAKASTENCORE0_LIBRARY
+@@ -112,6 +174,8 @@ if( NOT LIBOKTETAKASTEN_FOUND )
+ 
+     if( LIBOKTETAKASTEN_FOUND )
+         set( LIBOKTETAKASTEN_VERSION 0 )
++        set( LIBOKTETAKASTEN_NEEDS_KASTEN_VERSION 0 )
++        set( LIBOKTETAKASTEN_NEEDS_OKTETA_VERSION 0 )
+         set( LIBOKTETAKASTEN_INCLUDE_DIRS
+             ${LIBOKTETAKASTEN0_INCLUDE_DIR}
+         )
+@@ -138,4 +202,6 @@ mark_as_advanced(
+     LIBOKTETAKASTEN_INCLUDE_DIRS
+     LIBOKTETAKASTEN_LIBRARIES
+     LIBOKTETAKASTEN_VERSION
++    LIBOKTETAKASTEN_NEEDS_KASTEN_VERSION
++    LIBOKTETAKASTEN_NEEDS_OKTETA_VERSION
+ )
+diff --git a/utils/CMakeLists.txt b/utils/CMakeLists.txt
+index 1545d8c..aa0a0e6 100644
+--- a/utils/CMakeLists.txt
++++ b/utils/CMakeLists.txt
+@@ -6,8 +6,8 @@ macro_log_feature( LIBOKTETAKASTEN_FOUND
+ )
+ 
+ if( LIBOKTETAKASTEN_FOUND )
+-set( LIBOKTETA_FIND_VERSION ${LIBOKTETAKASTEN_VERSION} )
+-set( LIBKASTEN_FIND_VERSION ${LIBOKTETAKASTEN_VERSION} )
++set( LIBOKTETA_FIND_VERSION ${LIBOKTETAKASTEN_NEEDS_OKTETA_VERSION} )
++set( LIBKASTEN_FIND_VERSION ${LIBOKTETAKASTEN_NEEDS_KASTEN_VERSION} )
+ macro_optional_find_package( LibOkteta )
+ macro_optional_find_package( LibKasten )
+ 
+@@ -16,7 +16,7 @@ macro_log_feature( LIBOKTETA_FOUND
+   "" "Required for building Okteta KDevelop plugin."
+ )
+ macro_log_feature( LIBKASTEN_FOUND
+-  "libkasten v${LIBKASTEN_FIND_VERSION}" "Kasten libraries" "kdesk/okteta/libs" FALSE
++  "libkasten v${LIBKASTEN_FIND_VERSION}" "Kasten libraries" "kdesk/okteta/libs/kasten" FALSE
+   "" "Required for building Okteta KDevelop plugin."
+ )
+ endif( LIBOKTETAKASTEN_FOUND )
+diff --git a/utils/okteta/kastentoolviewwidget.cpp b/utils/okteta/kastentoolviewwidget.cpp
+index b10974e..6ec4f69 100644
+--- a/utils/okteta/kastentoolviewwidget.cpp
++++ b/utils/okteta/kastentoolviewwidget.cpp
+@@ -27,7 +27,10 @@
+ // Okteta Kasten
+ #include <bytearrayview.h>
+ // Kasten
+-#if KASTEN_VERSION == 1
++#if KASTEN_VERSION == 2
++#include <Kasten2/AbstractToolView>
++#include <Kasten2/AbstractTool>
++#elif KASTEN_VERSION == 1
+ #include <Kasten1/AbstractToolView>
+ #include <Kasten1/AbstractTool>
+ #else
+diff --git a/utils/okteta/kdevokteta.rc b/utils/okteta/kdevokteta.rc
+index e5314cf..b9ac33c 100644
+--- a/utils/okteta/kdevokteta.rc
++++ b/utils/okteta/kdevokteta.rc
+@@ -1,5 +1,5 @@
+ <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
+-<gui name="okteta" version="1">
++<gui name="okteta" version="2">
+ <MenuBar>
+   <Menu name="file">
+     <Action name="file_save" group="save_merge" /> <!-- TODO: why isn't this offered by the host? -->
+@@ -35,34 +35,45 @@
+     <Separator group="edit_find_merge" />
+     <Action name="goto_offset" group="edit_find_merge" />
+   </Menu>
+-  <Menu name="view"><text>View</text>
+-    <Action name="view_zoom_in" group="view_operations" />
+-    <Action name="view_zoom_out" group="view_operations" />
+-    <Separator group="view_operations" />
+-    <Action name="view_showsnonprinting" group="view_operations" />
+-    <Action name="view_lineoffset" group="view_operations" />
+-    <Action name="togglecolumns" group="view_operations" />
+-    <Separator group="view_operations" />
+-    <Action name="view_valuecoding" group="view_operations" />
+-    <Action name="view_charencoding" group="view_operations" />
+-    <Separator group="view_operations" />
+-    <Action name="view_bytesperline" group="view_operations" />
+-    <Action name="view_bytespergroup" group="view_operations" />
+-    <Action name="resizestyle" group="view_operations" />
+-    <Action name="viewmode" group="view_operations" />
++
++  <Menu name="editor">
++
++    <Menu name="view"><text>View</text>
++      <Action name="view_zoom_in" group="view_operations" />
++      <Action name="view_zoom_out" group="view_operations" />
++      <Separator group="view_operations" />
++      <Action name="view_showsnonprinting" group="view_operations" />
++      <Action name="view_lineoffset" group="view_operations" />
++      <Action name="togglecolumns" group="view_operations" />
++      <Separator group="view_operations" />
++      <Action name="view_valuecoding" group="view_operations" />
++      <Action name="view_charencoding" group="view_operations" />
++      <Separator group="view_operations" />
++      <Action name="view_bytesperline" group="view_operations" />
++      <Action name="view_bytespergroup" group="view_operations" />
++      <Action name="resizestyle" group="view_operations" />
++      <Action name="viewmode" group="view_operations" />
++      <Separator/>
++      <Action name="view_profile" />
++    </Menu>
++    <Menu name="bookmarks"><text>Bookmarks</text>
++      <Action name="bookmark_add" />
++      <Action name="bookmark_edit" />
++      <Separator/>
++      <Action name="bookmark_replace" />
++      <Action name="bookmark_remove" />
++      <Action name="bookmark_remove_all" />
++      <Separator/>
++      <Action name="bookmark_previous" />
++      <Action name="bookmark_next" />
++      <Separator/>
++      <ActionList name="bookmark_list" />
++    </Menu>
++
+   </Menu>
+-  <Menu name="bookmarks"><text>Bookmarks</text>
+-    <Action name="bookmark_add" />
+-    <Action name="bookmark_edit" />
+-    <Separator/>
+-    <Action name="bookmark_replace" />
+-    <Action name="bookmark_remove" />
+-    <Action name="bookmark_remove_all" />
+-    <Separator/>
+-    <Action name="bookmark_previous" />
+-    <Action name="bookmark_next" />
+-    <Separator/>
+-    <ActionList name="bookmark_list" />
++
++  <Menu name="settings">
++    <Action name="settings_viewprofiles_manage" group="configure_merge" />
+   </Menu>
+ </MenuBar>
+ 
+diff --git a/utils/okteta/oktetadocument.cpp b/utils/okteta/oktetadocument.cpp
+index abb047d..6af5c11 100644
+--- a/utils/okteta/oktetadocument.cpp
++++ b/utils/okteta/oktetadocument.cpp
+@@ -23,9 +23,15 @@
+ #include "oktetadocument.h"
+ 
+ // plugin
++#include "oktetaplugin.h"
+ #include "oktetaview.h"
+ // Okteta
+-#if KASTEN_VERSION == 1
++#if KASTEN_VERSION == 2
++#include <kasten2/okteta1/bytearrayviewprofilemanager.h>
++#include <kasten2/okteta1/bytearrayviewprofilesynchronizer.h>
++#include <kasten2/okteta1/bytearrayrawfilesynchronizerfactory.h>
++#include <kasten2/okteta1/bytearraydocument.h>
++#elif KASTEN_VERSION == 1
+ #include <kasten1/okteta1/bytearrayrawfilesynchronizerfactory.h>
+ #include <kasten1/okteta1/bytearraydocument.h>
+ #else
+@@ -33,7 +39,13 @@
+ #include <kasten/bytearraydocument.h>
+ #endif
+ // Kasten
+-#if KASTEN_VERSION == 1
++#if KASTEN_VERSION == 2
++#include <Kasten2/JobManager>
++#include <Kasten2/AbstractLoadJob>
++#include <Kasten2/AbstractSyncToRemoteJob>
++#include <Kasten2/AbstractSyncFromRemoteJob>
++#include <Kasten2/AbstractModelSynchronizer>
++#elif KASTEN_VERSION == 1
+ #include <Kasten1/JobManager>
+ #include <Kasten1/AbstractLoadJob>
+ #include <Kasten1/AbstractSyncToRemoteJob>
+@@ -86,7 +98,11 @@ KTextEditor::Cursor OktetaDocument::cursorPosition() const { return KTextEditor:
+ IDocument::DocumentState OktetaDocument::state() const
+ {
+     return mByteArrayDocument ?
++#if KASTEN_VERSION == 2
++               ( mByteArrayDocument->synchronizer()->localSyncState() == Kasten::LocalHasChanges ?
++#else
+                ( mByteArrayDocument->localSyncState() == Kasten::LocalHasChanges ?
++#endif
+                    IDocument::Modified :
+                    IDocument::Clean ) :
+                IDocument::Clean;
+@@ -105,7 +121,7 @@ bool OktetaDocument::save( IDocument::DocumentSaveMode mode )
+ 
+     Kasten::AbstractSyncToRemoteJob* syncJob = synchronizer->startSyncToRemote();
+     const bool syncSucceeded =
+-#if KASTEN_VERSION == 1
++#if KASTEN_VERSION == 1 || KASTEN_VERSION == 2
+         Kasten::JobManager::executeJob( syncJob );
+ #else
+         Kasten::JobManager::executeJob( syncJob, qApp->activeWindow() );
+@@ -127,7 +143,7 @@ void OktetaDocument::reload()
+ 
+     Kasten::AbstractSyncFromRemoteJob* syncJob = synchronizer->startSyncFromRemote();
+     const bool syncSucceeded =
+-#if KASTEN_VERSION == 1
++#if KASTEN_VERSION == 1 || KASTEN_VERSION == 2
+         Kasten::JobManager::executeJob( syncJob );
+ #else
+         Kasten::JobManager::executeJob( syncJob, qApp->activeWindow() );
+@@ -227,7 +243,10 @@ Sublime::View* OktetaDocument::newView( Sublime::Document* document )
+         Kasten::AbstractModelSynchronizer* synchronizer = synchronizerFactory->createSynchronizer();
+ 
+         Kasten::AbstractLoadJob* loadJob = synchronizer->startLoad( url() );
+-#if KASTEN_VERSION == 1
++#if KASTEN_VERSION == 2
++        connect( loadJob, SIGNAL(documentLoaded(Kasten2::AbstractDocument*)),
++                 SLOT(onByteArrayDocumentLoaded(Kasten2::AbstractDocument*)) );
++#elif KASTEN_VERSION == 1
+         connect( loadJob, SIGNAL(documentLoaded(Kasten1::AbstractDocument*)),
+                  SLOT(onByteArrayDocumentLoaded(Kasten1::AbstractDocument*)) );
+ #else
+@@ -235,7 +254,7 @@ Sublime::View* OktetaDocument::newView( Sublime::Document* document )
+                  SLOT(onByteArrayDocumentLoaded(Kasten::AbstractDocument*)) );
+ #endif
+     const bool syncSucceeded =
+-#if KASTEN_VERSION == 1
++#if KASTEN_VERSION == 1 || KASTEN_VERSION == 2
+         Kasten::JobManager::executeJob( loadJob );
+ #else
+         Kasten::JobManager::executeJob( loadJob, qApp->activeWindow() );
+@@ -244,7 +263,15 @@ Sublime::View* OktetaDocument::newView( Sublime::Document* document )
+         delete synchronizerFactory;
+     }
+ 
++#if KASTEN_VERSION == 2
++    Kasten::ByteArrayViewProfileManager* const viewProfileManager = mPlugin->viewProfileManager();
++    Kasten::ByteArrayViewProfileSynchronizer* viewProfileSynchronizer =
++        new Kasten::ByteArrayViewProfileSynchronizer( viewProfileManager );
++    viewProfileSynchronizer->setViewProfileId( viewProfileManager->defaultViewProfileId() );
++    return new OktetaView( this, viewProfileSynchronizer );
++#else
+     return new OktetaView( this );
++#endif
+ }
+ 
+ bool OktetaDocument::closeDocument(bool silent)
+@@ -257,7 +284,9 @@ void OktetaDocument::onByteArrayDocumentLoaded( Kasten::AbstractDocument* docume
+     if( document )
+     {
+         mByteArrayDocument = static_cast<Kasten::ByteArrayDocument*>( document );
+-#if KASTEN_VERSION == 1
++#if KASTEN_VERSION == 2
++        connect( mByteArrayDocument, SIGNAL(localSyncStateChanged(Kasten2::LocalSyncState)),
++#elif KASTEN_VERSION == 1
+         connect( mByteArrayDocument, SIGNAL(localSyncStateChanged(Kasten1::LocalSyncState)),
+ #else
+         connect( mByteArrayDocument, SIGNAL(localSyncStateChanged(Kasten::LocalSyncState)),
+diff --git a/utils/okteta/oktetadocument.h b/utils/okteta/oktetadocument.h
+index 56eba46..c03573a 100644
+--- a/utils/okteta/oktetadocument.h
++++ b/utils/okteta/oktetadocument.h
+@@ -85,7 +85,9 @@ class OktetaDocument : public Sublime::UrlDocument, public IDocument
+   protected Q_SLOTS:
+     void onByteArrayDocumentChanged();
+     // Moc is too primitive to know about namespace aliase
+-#if KASTEN_VERSION == 1
++#if KASTEN_VERSION == 2
++    void onByteArrayDocumentLoaded( Kasten2::AbstractDocument* document );
++#elif KASTEN_VERSION == 1
+     void onByteArrayDocumentLoaded( Kasten1::AbstractDocument* document );
+ #else
+     void onByteArrayDocumentLoaded( Kasten::AbstractDocument* document );
+diff --git a/utils/okteta/oktetaglobal.h b/utils/okteta/oktetaglobal.h
+index 0113bbb..857ba55 100644
+--- a/utils/okteta/oktetaglobal.h
++++ b/utils/okteta/oktetaglobal.h
+@@ -24,7 +24,11 @@
+ #define OKTETAGLOBAL_H
+ 
+ // Adaptions for the different version of Kasten and Okteta
+-#if KASTEN_VERSION == 1
++#if KASTEN_VERSION == 2
++namespace Kasten2 {}
++namespace Kasten = Kasten2;
++#define KASTEN_NAMESPACE Kasten2
++#elif KASTEN_VERSION == 1
+ namespace Kasten1 {}
+ namespace Kasten = Kasten1;
+ #define KASTEN_NAMESPACE Kasten1
+diff --git a/utils/okteta/oktetaplugin.cpp b/utils/okteta/oktetaplugin.cpp
+index c8a7fd4..5691959 100644
+--- a/utils/okteta/oktetaplugin.cpp
++++ b/utils/okteta/oktetaplugin.cpp
+@@ -45,6 +45,10 @@
+ #include <bookmarkstoolfactory.h>
+ #include <structurestoolviewfactory.h>
+ #include <structurestoolfactory.h>
++// Okteta Kasten
++#if KASTEN_VERSION == 2
++#include <bytearrayviewprofilemanager.h>
++#endif
+ // KDev
+ #include <project/projectmodel.h>
+ #include <interfaces/icore.h>
+@@ -77,15 +81,20 @@ void addTool( IUiController* uiController,
+ 
+ 
+ OktetaPlugin::OktetaPlugin( QObject* parent, const QVariantList& args )
+-  : IPlugin( OktetaPluginFactory::componentData(), parent ),
+-    mDocumentFactory( new OktetaDocumentFactory(this) )
++  : IPlugin( OktetaPluginFactory::componentData(), parent )
++  , mDocumentFactory( new OktetaDocumentFactory(this) )
++#if KASTEN_VERSION == 2
++  , mViewProfileManager( new Kasten::ByteArrayViewProfileManager() )
++#endif
+ {
+     Q_UNUSED(args)
+ 
++#if KASTEN_VERSION == 0 || KASTEN_VERSION == 1
+     KLocale* globalLocale = KGlobal::locale();
+     globalLocale->insertCatalog( QString::fromLatin1("liboktetacore") );
+     globalLocale->insertCatalog( QString::fromLatin1("libkasten") );
+     globalLocale->insertCatalog( QString::fromLatin1("liboktetakasten") );
++#endif
+ 
+     IUiController* uiController = core()->uiController();
+     addTool( uiController, new Kasten::ChecksumToolViewFactory(), new Kasten::ChecksumToolFactory() );
+diff --git a/utils/okteta/oktetaplugin.h b/utils/okteta/oktetaplugin.h
+index 3eec9f7..d848aae 100644
+--- a/utils/okteta/oktetaplugin.h
++++ b/utils/okteta/oktetaplugin.h
+@@ -23,6 +23,8 @@
+ #ifndef OKTETAPLUGIN_H
+ #define OKTETAPLUGIN_H
+ 
++// Plugin
++#include "oktetaglobal.h"
+ // KDev
+ #include <interfaces/iplugin.h>
+ // Qt
+@@ -30,6 +32,10 @@
+ 
+ class KUrl;
+ 
++namespace KASTEN_NAMESPACE
++{
++class ByteArrayViewProfileManager;
++}
+ 
+ namespace KDevelop
+ {
+@@ -48,11 +54,19 @@ class OktetaPlugin: public IPlugin
+   public: // KDevelop::IPlugin API
+     virtual ContextMenuExtension contextMenuExtension( Context* context );
+ 
++#if KASTEN_VERSION == 2
++  public:
++    Kasten::ByteArrayViewProfileManager* viewProfileManager() const { return mViewProfileManager; }
++#endif
++
+   private Q_SLOTS:
+     void onOpenTriggered();
+ 
+   protected:
+     OktetaDocumentFactory* mDocumentFactory;
++#if KASTEN_VERSION == 2
++    Kasten::ByteArrayViewProfileManager* const mViewProfileManager;
++#endif
+     QList<KUrl> mContextUrls;
+ };
+ 
+diff --git a/utils/okteta/oktetatoolviewfactory.cpp b/utils/okteta/oktetatoolviewfactory.cpp
+index ed0cf13..fffa24e 100644
+--- a/utils/okteta/oktetatoolviewfactory.cpp
++++ b/utils/okteta/oktetatoolviewfactory.cpp
+@@ -25,7 +25,11 @@
+ // plugin
+ #include "kastentoolviewwidget.h"
+ // Kasten
+-#if KASTEN_VERSION == 1
++#if KASTEN_VERSION == 2
++#include <Kasten2/AbstractToolViewFactory>
++#include <Kasten2/AbstractToolFactory>
++#include <Kasten2/AbstractToolView>
++#elif KASTEN_VERSION == 1
+ #include <Kasten1/AbstractToolViewFactory>
+ #include <Kasten1/AbstractToolFactory>
+ #include <Kasten1/AbstractToolView>
+diff --git a/utils/okteta/oktetaview.cpp b/utils/okteta/oktetaview.cpp
+index 249aaaa..d4142f3 100644
+--- a/utils/okteta/oktetaview.cpp
++++ b/utils/okteta/oktetaview.cpp
+@@ -33,9 +33,15 @@
+ namespace KDevelop
+ {
+ 
++#if KASTEN_VERSION == 2
++OktetaView::OktetaView( OktetaDocument* document, Kasten::ByteArrayViewProfileSynchronizer* viewProfileSynchronizer )
++  : Sublime::View( document, View::TakeOwnership ),
++    mByteArrayView( new Kasten::ByteArrayView( document->byteArrayDocument(), viewProfileSynchronizer ) )
++#else
+ OktetaView::OktetaView( OktetaDocument* document )
+   : Sublime::View( document, View::TakeOwnership ),
+     mByteArrayView( new Kasten::ByteArrayView( document->byteArrayDocument() ) )
++#endif
+ {
+ }
+ 
+diff --git a/utils/okteta/oktetaview.h b/utils/okteta/oktetaview.h
+index 29a6b39..6d2e655 100644
+--- a/utils/okteta/oktetaview.h
++++ b/utils/okteta/oktetaview.h
+@@ -29,6 +29,7 @@
+ #include <sublime/view.h>
+ 
+ namespace KASTEN_NAMESPACE {
++class ByteArrayViewProfileSynchronizer;
+ class ByteArrayView;
+ }
+ 
+@@ -43,8 +44,11 @@ class OktetaView : public Sublime::View
+   Q_OBJECT
+ 
+   public:
++#if KASTEN_VERSION == 2
++    OktetaView( OktetaDocument* document, Kasten::ByteArrayViewProfileSynchronizer* viewProfileSynchronizer );
++#else
+     explicit OktetaView( OktetaDocument* document );
+-
++#endif
+     virtual ~OktetaView();
+ 
+   public:
+diff --git a/utils/okteta/oktetawidget.cpp b/utils/okteta/oktetawidget.cpp
+index 0fac371..cd020b7 100644
+--- a/utils/okteta/oktetawidget.cpp
++++ b/utils/okteta/oktetawidget.cpp
+@@ -39,6 +39,10 @@
+ #include <viewconfigcontroller.h>
+ #include <viewmodecontroller.h>
+ #include <viewstatuscontroller.h>
++#if KASTEN_VERSION == 2
++#include <viewprofilecontroller.h>
++#include <viewprofilesmanagecontroller.h>
++#endif
+ // Kasten
+ #include <readonlycontroller.h>
+ // #include <document/readonly/readonlybarcontroller.h>
+@@ -54,6 +58,7 @@
+ // KDevelop
+ #include <sublime/view.h>
+ // KDE
++#include <KLocale>
+ #include <KAction>
+ #include <KStandardAction>
+ #include <KActionCollection>
+@@ -73,7 +78,7 @@ OktetaWidget::OktetaWidget( QWidget* parent, Kasten::ByteArrayView* byteArrayVie
+     setComponentData( plugin->componentData() );
+     setXMLFile( "kdevokteta.rc" );
+ 
+-    setupActions();
++    setupActions(plugin);
+ 
+     QVBoxLayout* layout = new QVBoxLayout( this );
+     layout->setMargin( 0 );
+@@ -82,7 +87,7 @@ OktetaWidget::OktetaWidget( QWidget* parent, Kasten::ByteArrayView* byteArrayVie
+     setFocusProxy( widget );
+ }
+ 
+-void OktetaWidget::setupActions()
++void OktetaWidget::setupActions(OktetaPlugin* plugin)
+ {
+     mControllers.append( new Kasten::VersionController(this) );
+     mControllers.append( new Kasten::ReadOnlyController(this) );
+@@ -103,6 +108,15 @@ void OktetaWidget::setupActions()
+     mControllers.append( new Kasten::PrintController( this ) );
+     mControllers.append( new Kasten::ViewConfigController(this) );
+     mControllers.append( new Kasten::ViewModeController(this) );
++#if KASTEN_VERSION == 2
++    Kasten::ByteArrayViewProfileManager* viewProfileManager = plugin->viewProfileManager();
++    mControllers.append( new Kasten::ViewProfileController(viewProfileManager, mByteArrayView->widget(), this) );
++    mControllers.append( new Kasten::ViewProfilesManageController(this, viewProfileManager, mByteArrayView->widget()) );
++    // update the text of the viewprofiles_manage action, to make clear this is just for byte arrays
++    QAction* viewprofilesManageAction = actionCollection()->action(QLatin1String("settings_viewprofiles_manage"));
++    viewprofilesManageAction->setText( i18nc("@action:inmenu",
++                                             "Manage Byte Array View Profiles...") );
++#endif
+ 
+ //     Kasten::StatusBar* bottomBar = static_cast<Kasten::StatusBar*>( statusBar() );
+ //     mControllers.append( new ViewStatusController(bottomBar) );
+@@ -111,7 +125,6 @@ void OktetaWidget::setupActions()
+ 
+     foreach( Kasten::AbstractXmlGuiController* controller, mControllers )
+         controller->setTargetModel( mByteArrayView );
+-
+ #if 0
+     QDesignerFormWindowManagerInterface* manager = mDocument->form()->core()->formWindowManager();
+     KActionCollection* ac = actionCollection();
+diff --git a/utils/okteta/oktetawidget.h b/utils/okteta/oktetawidget.h
+index dfc9907..e62e58e 100644
+--- a/utils/okteta/oktetawidget.h
++++ b/utils/okteta/oktetawidget.h
+@@ -55,10 +55,10 @@ class OktetaWidget : public QWidget, public KXMLGUIClient
+         void editSignals();
+         void editTabOrder();
+ #endif
+-  protected:
+-    void setupActions();
++  private:
++    void setupActions(OktetaPlugin* plugin);
+ 
+-  protected:
++  private:
+     Kasten::ByteArrayView* mByteArrayView;
+     // TODO: move this to the plugin, per mainwindow
+     QList<Kasten::AbstractXmlGuiController*> mControllers;
