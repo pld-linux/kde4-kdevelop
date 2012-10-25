@@ -148,7 +148,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{orgname}.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/kdevelop
-%attr(755,root,root) %{_bindir}/kdevelop_attach
+%attr(755,root,root) %{_bindir}/kdevelop!
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_makebuilder.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdevcmake_settings.so
 %attr(755,root,root) %{_libdir}/kde4/kdevastyle.so
@@ -184,6 +184,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevgdb/printers/libstdcxx.py
 %{_datadir}/apps/kdevokteta
 %{_datadir}/config/kdeveloprc
+%{_datadir}/config/kdevelop-qthelp.knsrc
 %dir %{_datadir}/apps/kdevcppsupport
 %{_datadir}/apps/kdevcppsupport/kdevcppsupport.rc
 %{_datadir}/kde4/services/kcm_kdev_makebuilder.desktop
