@@ -5,7 +5,7 @@
 %define		kdever		4.8.0
 %define		qtver		4.8.0
 %define		orgname		kdevelop
-%define		kdevplatform	1.4.1
+%define		kdevplatform	1.5.0
 
 Summary:	KDE Integrated Development Environment
 Summary(de.UTF-8):	KDevelop ist eine grafische Entwicklungsumgebung für KDE
@@ -13,12 +13,12 @@ Summary(pl.UTF-8):	Zintegrowane środowisko programisty dla KDE
 Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
-Version:	4.4.1
+Version:	4.5.0
 Release:	1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	2ffa6a17019c8de09ce9da25b3b92925
+# Source0-md5:	7a16db527e0565e435975e929b682af3
 URL:		http://www.kdevelop.org/
 BuildRequires:	QtHelp-devel >= %{qtver}
 BuildRequires:	QtNetwork-devel >= %{qtver}
@@ -39,6 +39,8 @@ BuildConflicts:	star
 Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	shared-mime-info
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define         filterout       -flto
 
 %description
 The KDevelop Integrated Development Environment provides many features
@@ -150,14 +152,18 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/kdevelop
 %attr(755,root,root) %{_bindir}/kdevelop!
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_makebuilder.so
+%attr(755,root,root) %{_libdir}/kde4/kcm_kdev_cmakebuilder.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdevcmake_settings.so
+%attr(755,root,root) %{_libdir}/kde4/kcm_kdevcustombuildsystem.so
 %attr(755,root,root) %{_libdir}/kde4/kdevastyle.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcmakebuilder.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcmakedocumentation.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcmakemanager.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcpplanguagesupport.so
+%attr(755,root,root) %{_libdir}/kde4/kdevcustombuildsystem.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcustommakemanager.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcustomscript.so
+%attr(755,root,root) %{_libdir}/kde4/kdevexecuteplasmoid.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgdb.so
 %attr(755,root,root) %{_libdir}/kde4/kdevokteta.so
 %attr(755,root,root) %{_libdir}/kde4/kdevmakebuilder.so
@@ -166,6 +172,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevqthelp_config.so
 %attr(755,root,root) %{_libdir}/kde4/kdevkdeprovider.so
 %attr(755,root,root) %{_libdir}/kde4/krunner_kdevelopsessions.so
+%attr(755,root,root) %{_libdir}/kde4/plasma_engine_kdevelopsessions.so
 %attr(755,root,root) %{_libdir}/libkdev4cmakecommon.so
 %attr(755,root,root) %{_libdir}/libkdev4cppduchain.so
 %attr(755,root,root) %{_libdir}/libkdev4cppparser.so
@@ -173,8 +180,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevappwizard
 %{_datadir}/apps/kdevcmakebuilder
 %{_datadir}/apps/kdevcmakemanager
+%{_datadir}/apps/kdevcodegen/templates/*
 %{_datadir}/apps/kdevcustommakemanager
 %{_datadir}/apps/kdevelop
+%{_datadir}/apps/kdevfiletemplates/templates/*
 %dir %{_datadir}/apps/kdevgdb
 %{_datadir}/apps/kdevgdb/kdevgdbui.rc
 %dir %{_datadir}/apps/kdevgdb/printers
@@ -183,19 +192,25 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevgdb/printers/kde4.py
 %{_datadir}/apps/kdevgdb/printers/libstdcxx.py
 %{_datadir}/apps/kdevokteta
+%{_datadir}/apps/plasma/plasmoids/kdevelopsessions
+%{_datadir}/apps/plasma/services/org.kde.plasma.dataengine.kdevelopsessions.operations
 %{_datadir}/config/kdeveloprc
 %{_datadir}/config/kdevelop-qthelp.knsrc
 %dir %{_datadir}/apps/kdevcppsupport
 %{_datadir}/apps/kdevcppsupport/kdevcppsupport.rc
+%{_datadir}/kde4/services/kcm_kdev_cmakebuilder.desktop
 %{_datadir}/kde4/services/kcm_kdev_makebuilder.desktop
 %{_datadir}/kde4/services/kcm_kdevcmake_settings.desktop
+%{_datadir}/kde4/services/kcm_kdevcustombuildsystem.desktop
 %{_datadir}/kde4/services/kdevastyle.desktop
 %{_datadir}/kde4/services/kdevcmakebuilder.desktop
 %{_datadir}/kde4/services/kdevcmakedocumentation.desktop
 %{_datadir}/kde4/services/kdevcmakemanager.desktop
+%{_datadir}/kde4/services/kdevcustombuildsystem.desktop
 %{_datadir}/kde4/services/kdevcustomscript.desktop
 %{_datadir}/kde4/services/kdevcppsupport.desktop
 %{_datadir}/kde4/services/kdevcustommakemanager.desktop
+%{_datadir}/kde4/services/kdevexecuteplasmoid.desktop
 %{_datadir}/kde4/services/kdevgdb.desktop
 %{_datadir}/kde4/services/kdevmakebuilder.desktop
 %{_datadir}/kde4/services/kdevmanpage.desktop
@@ -204,6 +219,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kdevqthelp_config.desktop
 %{_datadir}/kde4/services/kdevelopsessions.desktop
 %{_datadir}/kde4/services/kdevkdeprovider.desktop
+%{_datadir}/kde4/services/plasma-applet-kdevelopsessions.desktop
+%{_datadir}/kde4/services/plasma-dataengine-kdevelopsessions.desktop
 %{_datadir}/mime/packages/kdevelop.xml
 %{_desktopdir}/kdevelop.desktop
 %{_desktopdir}/kde4/kdevelop.desktop
