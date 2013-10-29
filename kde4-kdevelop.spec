@@ -14,11 +14,12 @@ Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
 Version:	4.5.1
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.bz2
 # Source0-md5:	9356d8faa06a027fb6854391b03ba4bd
+Patch0:		%{orgname}-drop-outdated-printers.patch
 URL:		http://www.kdevelop.org/
 BuildRequires:	QtHelp-devel >= %{qtver}
 BuildRequires:	QtNetwork-devel >= %{qtver}
@@ -36,6 +37,7 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.600
 BuildRequires:	zlib-devel >= 1.2.0
 BuildConflicts:	star
+Requires:	libstdc++-gdb
 Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	shared-mime-info
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -114,6 +116,7 @@ pisaniu własnych programów wykorzystujących kdevelop.
 
 %prep
 %setup -q -n %{orgname}-%{version}
+%patch0 -p1
 
 %build
 install -d build
@@ -190,7 +193,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevgdb/printers/gdbinit
 %{_datadir}/apps/kdevgdb/printers/qt4.py
 %{_datadir}/apps/kdevgdb/printers/kde4.py
-%{_datadir}/apps/kdevgdb/printers/libstdcxx.py
 %{_datadir}/apps/kdevokteta
 %{_datadir}/apps/plasma/plasmoids/kdevelopsessions
 %{_datadir}/apps/plasma/services/org.kde.plasma.dataengine.kdevelopsessions.operations
