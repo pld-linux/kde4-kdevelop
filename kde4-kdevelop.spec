@@ -24,12 +24,14 @@ BuildRequires:	QtHelp-devel >= %{qtver}
 BuildRequires:	QtNetwork-devel >= %{qtver}
 BuildRequires:	automoc4
 BuildRequires:	cmake >= 2.8.0
+BuildRequires:	docbook-style-xsl
 BuildRequires:	gettext-devel
 BuildRequires:	kde4-kdebase-workspace-devel >= %{kdever}
 BuildRequires:	kde4-kdelibs-devel >= %{kdever}
 BuildRequires:	kde4-kdesdk-devel >= %{kdever}
 BuildRequires:	kde4-kdevplatform-devel >= %{kdevplatform}
 BuildRequires:	libstdc++-devel >= 3.3
+BuildRequires:	pkgconfig
 BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	qt4-qmake >= %{qtver}
 BuildRequires:	rpm-pythonprov
