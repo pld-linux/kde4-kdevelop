@@ -26,7 +26,7 @@ BuildRequires:	automoc4
 BuildRequires:	cmake >= 2.8.0
 BuildRequires:	docbook-style-xsl
 BuildRequires:	gettext-devel
-BuildRequires:	kde4-kdebase-workspace-devel >= %{kdever}
+BuildRequires:	kde4-kdebase-workspace-devel >= 4.10.0
 BuildRequires:	kde4-kdelibs-devel >= %{kdever}
 BuildRequires:	kde4-kde-dev-utils >= %{kdever}
 BuildRequires:	kde4-kde-dev-scripts >= %{kdever}
