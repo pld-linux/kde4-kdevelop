@@ -2,7 +2,7 @@
 # Conditional build:
 #
 %define		_state		stable
-%define		kdever		4.8.0
+%define		kdever		4.12.0
 %define		qtver		4.8.0
 %define		orgname		kdevelop
 %define		kdevplatform	1.6.0
@@ -28,7 +28,18 @@ BuildRequires:	docbook-style-xsl
 BuildRequires:	gettext-devel
 BuildRequires:	kde4-kdebase-workspace-devel >= %{kdever}
 BuildRequires:	kde4-kdelibs-devel >= %{kdever}
-BuildRequires:	kde4-kdesdk-devel >= %{kdever}
+BuildRequires:	kde4-kde-dev-utils >= %{kdever}
+BuildRequires:	kde4-kde-dev-scripts >= %{kdever}
+BuildRequires:	kde4-kapptemplate >= %{kdever}
+#BuildRequires:	kde4-kcachegrind >= %{kdever}
+BuildRequires:	kde4-kdesdk-kioslaves >= %{kdever}
+BuildRequires:	kde4-kdesdk-strigi-analyzers >= %{kdever}
+BuildRequires:	kde4-kdesdk-thumbnailers >= %{kdever}
+BuildRequires:	kde4-kompare >= %{kdever}
+BuildRequires:	kde4-lokalize >= %{kdever}
+#BuildRequires:	kde4-okteta >= %{kdever}
+BuildRequires:	kde4-poxml >= %{kdever}
+BuildRequires:	kde4-umbrello >= %{kdever}
 BuildRequires:	kde4-kdevplatform-devel >= %{kdevplatform}
 BuildRequires:	libstdc++-devel >= 3.3
 BuildRequires:	pkgconfig
