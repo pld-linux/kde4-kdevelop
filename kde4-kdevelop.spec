@@ -14,32 +14,22 @@ Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
 Version:	4.7.0
-Release:	0.3
+Release:	1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.xz
 # Source0-md5:	0912f881cb1219450aeb155494846bbd
+Patch0:		%{name}-stable.patch
 URL:		http://www.kdevelop.org/
 BuildRequires:	QtHelp-devel >= %{qtver}
 BuildRequires:	QtNetwork-devel >= %{qtver}
 BuildRequires:	automoc4
-BuildRequires:	cmake >= 2.8.0
+BuildRequires:	cmake >= 2.8.9
 BuildRequires:	docbook-style-xsl
 BuildRequires:	gettext-devel
 BuildRequires:	kde4-kdebase-workspace-devel >= 4.10.0
 BuildRequires:	kde4-kdelibs-devel >= %{kdever}
-# BuildRequires:	kde4-kde-dev-utils >= %{kdever}
-#BuildRequires:	kde4-kde-dev-scripts >= %{kdever}
-# BuildRequires:	kde4-kapptemplate >= %{kdever}
-# BuildRequires:	kde4-kcachegrind >= %{kdever}
-#BuildRequires:	kde4-kdesdk-kioslaves >= %{kdever}
-#BuildRequires:	kde4-kdesdk-strigi-analyzers >= %{kdever}
-#BuildRequires:	kde4-kdesdk-thumbnailers >= %{kdever}
-#BuildRequires:	kde4-kompare >= %{kdever}
-#BuildRequires:	kde4-lokalize >= %{kdever}
 BuildRequires:	kde4-okteta-devel >= %{kdever}
-#BuildRequires:	kde4-poxml >= %{kdever}
-# BuildRequires:	kde4-umbrello >= %{kdever}
 BuildRequires:	kde4-kdevplatform-devel >= %{kdevplatform}
 BuildRequires:	libstdc++-devel >= 3.3
 BuildRequires:	pkgconfig
@@ -52,6 +42,13 @@ BuildConflicts:	star
 Requires:	libstdc++-gdb
 Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	shared-mime-info
+#Provides svn ioslave and perl doc ioslave
+Suggests:	kde4-kdesdk-kioslaves >= %{kdever}
+#Provides additional project templates
+Suggests:	kde4-kapptemplate >= %{kdever}
+#Provides ui viewer
+Suggests:	kde4-kde-dev-utils >= %{kdever}
+Suggests:	kde4-kompare >= %{kdever}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define         filterout       -flto
@@ -128,6 +125,7 @@ pisaniu własnych programów wykorzystujących kdevelop.
 
 %prep
 %setup -q -n %{orgname}-%{version}
+%patch0 -p1
 
 %build
 install -d build
