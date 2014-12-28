@@ -26,7 +26,7 @@ BuildRequires:	QtNetwork-devel >= %{qtver}
 BuildRequires:	automoc4
 BuildRequires:	cmake >= 2.8.9
 BuildRequires:	docbook-style-xsl
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	kde4-kdebase-workspace-devel >= 4.10.0
 BuildRequires:	kde4-kdelibs-devel >= %{kdever}
 BuildRequires:	kde4-okteta-devel >= %{kdever}
