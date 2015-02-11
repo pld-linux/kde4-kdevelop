@@ -5,7 +5,7 @@
 %define		kdever		4.12.0
 %define		qtver		4.8.0
 %define		orgname		kdevelop
-%define		kdevplatform	1.7.0
+%define		kdevplatform	1.7.1
 
 Summary:	KDE Integrated Development Environment
 Summary(de.UTF-8):	KDevelop ist eine grafische Entwicklungsumgebung für KDE
@@ -13,13 +13,12 @@ Summary(pl.UTF-8):	Zintegrowane środowisko programisty dla KDE
 Summary(pt_BR.UTF-8):	Ambiente Integrado de Desenvolvimento para o KDE
 Summary(zh_CN.UTF-8):	KDE C/C++集成开发环境
 Name:		kde4-kdevelop
-Version:	4.7.0
+Version:	4.7.1
 Release:	1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{version}/src/%{orgname}-%{version}.tar.xz
-# Source0-md5:	0912f881cb1219450aeb155494846bbd
-Patch0:		%{name}-stable.patch
+# Source0-md5:	dc7e6259a999bd34ce644ffea4727e76
 URL:		http://www.kdevelop.org/
 BuildRequires:	QtHelp-devel >= %{qtver}
 BuildRequires:	QtNetwork-devel >= %{qtver}
@@ -125,7 +124,6 @@ pisaniu własnych programów wykorzystujących kdevelop.
 
 %prep
 %setup -q -n %{orgname}-%{version}
-%patch0 -p1
 
 %build
 install -d build
@@ -173,7 +171,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevcmakebuilder.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcmakedocumentation.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcmakemanager.so
-%attr(755,root,root) %{_libdir}/kde4/kdevcompilerprovider.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcpplanguagesupport.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcustombuildsystem.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcustommakemanager.so
@@ -195,7 +192,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libkdev4cppduchain.so
 %attr(755,root,root) %{_libdir}/libkdev4cppparser.so
 %attr(755,root,root) %{_libdir}/libkdev4cpprpp.so
-%attr(755,root,root) %{_libdir}/libkdev4includesdefinessettings.so
+%attr(755,root,root) %{_libdir}/libkdevcompilerprovider.so
 %{_datadir}/apps/kdevappwizard
 %{_datadir}/apps/kdevcodegen/templates/*
 %{_datadir}/apps/kdevcustommakemanager
@@ -227,7 +224,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/kdevcmakebuilder.desktop
 %{_datadir}/kde4/services/kdevcmakedocumentation.desktop
 %{_datadir}/kde4/services/kdevcmakemanager.desktop
-%{_datadir}/kde4/services/kdevcompilerprovider.desktop
 %{_datadir}/kde4/services/kdevcustombuildsystem.desktop
 %{_datadir}/kde4/services/kdevcustomscript.desktop
 %{_datadir}/kde4/services/kdevcppsupport.desktop
